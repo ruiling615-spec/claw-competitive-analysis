@@ -133,9 +133,24 @@
 <!-- Fixed Side Navigation -->
 <nav class="side-nav">
   <div class="nav-title">🦞 一、WorkBuddy 纵深</div>
-  <a href="#wb-position">1.1 定位与生态格局</a>
-  <a href="#wb-im">1.2 IM 接入与产品集成</a>
-  <a href="#wb-biz">1.3 商业化模式</a>
+  <details>
+    <summary><a href="#wb-position" style="display:inline;padding:0;border:0">1.1 定位与生态格局</a></summary>
+    <a href="#wb-position-overview">产品概要</a>
+    <a href="#wb-position-ecosystem">生态格局</a>
+    <a href="#wb-position-dual">生态双栖（ToC+ToB）</a>
+  </details>
+  <details>
+    <summary><a href="#wb-im" style="display:inline;padding:0;border:0">1.2 IM 接入与产品集成</a></summary>
+    <a href="#wb-im-timeline">IM 接入时间线</a>
+    <a href="#wb-im-wecom">企微深度集成架构</a>
+    <a href="#wb-im-reach">用户触达方式全景</a>
+  </details>
+  <details>
+    <summary><a href="#wb-biz" style="display:inline;padding:0;border:0">1.3 商业化模式</a></summary>
+    <a href="#wb-biz-toc">To C 积分制免费获客</a>
+    <a href="#wb-biz-tob">To B 企业License</a>
+    <a href="#wb-biz-pricing">行业定价全景</a>
+  </details>
   <details>
     <summary><a href="#wb-growth" style="display:inline;padding:0;border:0">1.4 运营增长</a></summary>
     <a href="#wb-growth-overview">策略总览（六大打法）</a>
@@ -257,7 +272,7 @@
   </div>
 
   <div class="card">
-    <h3>🏢 产品概要</h3>
+    <h3 id="wb-position-overview">🏢 产品概要</h3>
     <table>
       <tr><th style="width:150px">维度</th><th>WorkBuddy 详情</th></tr>
       <tr><td>出品方</td><td><strong>腾讯云 CodeBuddy 团队</strong>（2023年推出 AI 代码助手起步，技术积累3年）</td></tr>
@@ -271,7 +286,7 @@
   </div>
 
   <div class="card">
-    <h3>🌐 生态格局 — 它的"朋友圈"</h3>
+    <h3 id="wb-position-ecosystem">🌐 生态格局 — 它的"朋友圈"</h3>
     <table>
       <tr><th>生态维度</th><th>详情</th><th>评价</th></tr>
       <tr><td><strong>IM 生态</strong></td><td>5大IM（企微+钉钉+飞书+QQ+微信客服）+ 4个扩展入口（微信ClawBot+微信小程序+QQ邮箱Connector+腾讯乐享Connector）= <strong>9大触达渠道</strong></td><td><span class="chip chip-green">竞品最多</span></td></tr>
@@ -288,7 +303,7 @@
   </div>
 
   <div class="card">
-    <h3>🔄 生态双栖 — WorkBuddy 同时覆盖 To C 与 To B</h3>
+    <h3 id="wb-position-dual">🔄 生态双栖 — WorkBuddy 同时覆盖 To C 与 To B</h3>
     <div class="table-wrap">
     <table>
       <tr><th style="width:14%">IM 渠道</th><th style="width:12%">面向</th><th>触达的用户群</th><th>解决的核心场景</th></tr>
@@ -320,7 +335,7 @@
   <div class="section-title"><span class="icon">💬</span> 1.2 IM 接入与产品集成</div>
 
   <div class="card">
-    <h3>📱 IM 接入时间线 — WorkBuddy 从0到9大触达渠道只用了30天</h3>
+    <h3 id="wb-im-timeline">📱 IM 接入时间线 — WorkBuddy 从0到9大触达渠道只用了30天</h3>
     <table>
       <tr><th>时间</th><th>WorkBuddy</th><th>QClaw</th><th>EasyClaw</th><th>灵犀Claw</th></tr>
       <tr><td>Day 1</td><td>—</td><td>微信客服号 (1)</td><td>—</td><td class="highlight">微信+飞书+WPS 等6渠道同时上线</td></tr>
@@ -338,7 +353,7 @@
   </div>
 
   <div class="card">
-    <h3>🔗 企业微信深度集成架构</h3>
+    <h3 id="wb-im-wecom">🔗 企业微信深度集成架构</h3>
     <div class="two-col">
       <div>
         <h4 style="margin-bottom:8px">两种集成方式</h4>
@@ -363,7 +378,7 @@
   </div>
 
   <div class="card">
-    <h3>🖥️ 用户触达方式全景</h3>
+    <h3 id="wb-im-reach">🖥️ 用户触达方式全景</h3>
     <table>
       <tr><th>触达方式</th><th>WorkBuddy</th><th>灵犀Claw</th><th>EasyClaw</th><th>QClaw</th><th>ArkClaw</th><th>OpenClaw</th></tr>
       <tr><td>桌面客户端</td><td>✅</td><td>✅ WPS内嵌</td><td>✅</td><td>✅</td><td>❌</td><td>✅</td></tr>
@@ -382,7 +397,7 @@
 
   <div class="two-col">
     <div class="card">
-      <h3>🔵 To C 模式 — 积分制免费获客</h3>
+      <h3 id="wb-biz-toc">🔵 To C 模式 — 积分制免费获客</h3>
       <table>
         <tr><th>项目</th><th>详情</th></tr>
         <tr><td>新用户赠送</td><td><strong>5,000 Credits</strong>（≈1.59亿 Tokens）</td></tr>
@@ -393,7 +408,7 @@
       </table>
     </div>
     <div class="card">
-      <h3>🟢 To B 模式 — 企业License双轨预测</h3>
+      <h3 id="wb-biz-tob">🟢 To B 模式 — 企业License双轨预测</h3>
       <table>
         <tr><th>对比维度</th><th>个人版</th><th>企业版</th></tr>
         <tr><td>登录方式</td><td>微信/QQ个人号</td><td>企微SSO/AD域控</td></tr>
@@ -407,7 +422,7 @@
   </div>
 
   <div class="card">
-    <h3>📊 行业定价全景（参考锚点）</h3>
+    <h3 id="wb-biz-pricing">📊 行业定价全景（参考锚点）</h3>
     <div class="table-wrap">
     <table>
       <tr><th>产品</th><th>免费层</th><th>入门付费</th><th>专业/高端</th><th>策略阶段</th></tr>
