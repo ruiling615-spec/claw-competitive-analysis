@@ -1,0 +1,1403 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN" style="scroll-behavior:smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claw 竞品分析报告 — WorkBuddy纵深 × 横评对比</title>
+<style>
+  :root {
+    --blue: #1a73e8; --blue-light: #e8f0fe; --blue-dark: #174ea6;
+    --green: #0d652d; --green-bg: #e6f4ea;
+    --red: #c5221f; --red-bg: #fce8e6;
+    --yellow: #e37400; --yellow-bg: #fef7e0;
+    --purple: #7b1fa2; --purple-bg: #f3e8fd;
+    --gray: #5f6368; --gray-bg: #f8f9fa; --border: #dadce0;
+    --card-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.06);
+    --card-radius: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif; background:#f0f2f5; color:#202124; line-height:1.7; }
+  .container { max-width:1340px; margin:0 auto; padding:24px 20px 60px; margin-left:220px; }
+
+  /* Fixed side nav */
+  .side-nav { position:fixed; left:0; top:0; bottom:0; width:210px; background:#1a1a2e; color:#8899bb; overflow-y:auto; padding:16px 0; z-index:1000; font-size:12px; }
+  .side-nav .nav-title { color:#fff; font-size:13px; font-weight:700; padding:8px 16px; margin-top:12px; opacity:.7; text-transform:uppercase; letter-spacing:.5px; }
+  .side-nav .nav-title:first-child { margin-top:0; }
+  .side-nav a { display:block; padding:5px 16px; color:#8899bb; text-decoration:none; line-height:1.5; transition:all .15s; border-left:3px solid transparent; }
+  .side-nav a:hover { color:#fff; background:rgba(255,255,255,.06); border-left-color:var(--blue); }
+  .side-nav a.active { color:#fff; border-left-color:var(--blue); background:rgba(26,115,232,.15); }
+  .side-nav details { margin:0; }
+  .side-nav details summary { display:block; padding:5px 16px; color:#8899bb; cursor:pointer; line-height:1.5; border-left:3px solid transparent; transition:all .15s; list-style:none; }
+  .side-nav details summary::-webkit-details-marker { display:none; }
+  .side-nav details summary::before { content:'▸ '; font-size:10px; }
+  .side-nav details[open] summary::before { content:'▾ '; }
+  .side-nav details summary:hover { color:#fff; background:rgba(255,255,255,.06); border-left-color:var(--blue); }
+  .side-nav details a { padding-left:28px; font-size:11px; opacity:.8; }
+  .side-nav details a:hover { opacity:1; }
+  .side-nav .nav-divider { height:1px; background:rgba(255,255,255,.1); margin:10px 16px; }
+  @media(max-width:1100px) { .side-nav { display:none; } .container { margin-left:auto; } }
+
+  /* Header */
+  .report-header { background:linear-gradient(135deg, #1a237e 0%, #1565c0 50%, #0d47a1 100%); color:#fff; padding:48px 40px 40px; border-radius:16px; margin-bottom:32px; position:relative; overflow:hidden; }
+  .report-header::after { content:''; position:absolute; right:-60px; top:-60px; width:300px; height:300px; background:rgba(255,255,255,.06); border-radius:50%; }
+  .report-header h1 { font-size:32px; font-weight:700; margin-bottom:8px; }
+  .report-header .subtitle { font-size:15px; opacity:.85; }
+  .report-header .meta { margin-top:16px; display:flex; gap:24px; font-size:13px; opacity:.7; }
+
+  /* Section */
+  .section { margin-bottom:36px; }
+  .section-title { font-size:22px; font-weight:700; color:var(--blue-dark); margin-bottom:16px; padding-left:14px; border-left:4px solid var(--blue); display:flex; align-items:center; gap:10px; }
+  .section-title .icon { font-size:24px; }
+
+  /* Card */
+  .card { background:#fff; border-radius:var(--card-radius); box-shadow:var(--card-shadow); padding:28px 32px; margin-bottom:20px; }
+  .card h3 { font-size:17px; font-weight:600; color:var(--blue-dark); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+  .card h3 .badge { display:inline-block; font-size:11px; padding:2px 8px; border-radius:10px; font-weight:500; }
+  .badge-blue { background:var(--blue-light); color:var(--blue); }
+  .badge-green { background:var(--green-bg); color:var(--green); }
+  .badge-red { background:var(--red-bg); color:var(--red); }
+  .badge-yellow { background:var(--yellow-bg); color:var(--yellow); }
+  .badge-purple { background:var(--purple-bg); color:var(--purple); }
+
+  /* Tables */
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th { background:var(--blue); color:#fff; padding:10px 14px; text-align:left; font-weight:600; white-space:nowrap; }
+  td { padding:9px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+  tr:nth-child(even) td { background:var(--gray-bg); }
+  tr:hover td { background:var(--blue-light); }
+  .highlight { background:var(--yellow-bg) !important; font-weight:600; }
+  .dim { color:var(--gray); font-size:12px; }
+
+  /* KPI Row */
+  .kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:20px; }
+  .kpi { background:#fff; border-radius:10px; box-shadow:var(--card-shadow); padding:20px; text-align:center; }
+  .kpi .value { font-size:28px; font-weight:700; }
+  .kpi .label { font-size:12px; color:var(--gray); margin-top:4px; }
+  .kpi.blue .value { color:var(--blue); }
+  .kpi.green .value { color:var(--green); }
+  .kpi.red .value { color:var(--red); }
+  .kpi.yellow .value { color:var(--yellow); }
+  .kpi.purple .value { color:var(--purple); }
+
+  /* Tag chips */
+  .chip { display:inline-block; font-size:11.5px; padding:3px 10px; border-radius:12px; margin:2px 4px 2px 0; }
+  .chip-blue { background:var(--blue-light); color:var(--blue); }
+  .chip-green { background:var(--green-bg); color:var(--green); }
+  .chip-red { background:var(--red-bg); color:var(--red); }
+  .chip-yellow { background:var(--yellow-bg); color:var(--yellow); }
+  .chip-purple { background:var(--purple-bg); color:var(--purple); }
+  .chip-gray { background:#e8eaed; color:var(--gray); }
+
+  /* Star rating */
+  .stars { color:#fbbc04; letter-spacing:2px; font-size:14px; }
+  .stars-dim { color:#dadce0; }
+
+  /* Callout */
+  .callout { padding:16px 20px; border-radius:8px; margin:14px 0; font-size:13.5px; line-height:1.8; }
+  .callout-blue { background:var(--blue-light); border-left:4px solid var(--blue); }
+  .callout-green { background:var(--green-bg); border-left:4px solid var(--green); }
+  .callout-red { background:var(--red-bg); border-left:4px solid var(--red); }
+  .callout-yellow { background:var(--yellow-bg); border-left:4px solid var(--yellow); }
+
+  /* Two-col */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media(max-width:900px) { .two-col { grid-template-columns:1fr; } }
+
+  /* Progress bar */
+  .progress-wrap { margin:6px 0; }
+  .progress-bar { height:10px; border-radius:5px; background:#e8eaed; overflow:hidden; }
+  .progress-fill { height:100%; border-radius:5px; }
+  .progress-label { display:flex; justify-content:space-between; font-size:12px; color:var(--gray); margin-top:2px; }
+
+  /* Anchor nav */
+  .toc { background:#fff; border-radius:var(--card-radius); box-shadow:var(--card-shadow); padding:24px 32px; margin-bottom:28px; }
+  .toc h2 { font-size:18px; margin-bottom:12px; color:var(--blue-dark); }
+  .toc-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px 24px; }
+  .toc a { font-size:13.5px; color:var(--blue); text-decoration:none; }
+  .toc a:hover { text-decoration:underline; }
+
+  /* VS block */
+  .vs-block { display:flex; align-items:center; justify-content:center; gap:16px; margin:12px 0; }
+  .vs-item { flex:1; text-align:center; padding:14px; border-radius:10px; }
+  .vs-divider { font-size:24px; font-weight:700; color:var(--gray); }
+
+  .small-note { font-size:11.5px; color:var(--gray); line-height:1.6; }
+
+  /* Scroll table wrapper */
+  .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .table-wrap table { min-width:900px; }
+</style>
+</head>
+<body>
+
+<!-- Fixed Side Navigation -->
+<nav class="side-nav">
+  <div class="nav-title">🦞 一、WorkBuddy 纵深</div>
+  <a href="#wb-position">1.1 定位与生态格局</a>
+  <a href="#wb-im">1.2 IM 接入与产品集成</a>
+  <a href="#wb-biz">1.3 商业化模式</a>
+  <details>
+    <summary><a href="#wb-growth" style="display:inline;padding:0;border:0">1.4 运营增长</a></summary>
+    <a href="#wb-growth-overview">策略总览（六大打法）</a>
+    <a href="#wb-growth-phases">推广四阶段</a>
+    <a href="#wb-growth-timeline">宣发时间线</a>
+    <a href="#wb-growth-channels">渠道矩阵</a>
+    <a href="#wb-growth-campaigns">营销活动汇总</a>
+    <a href="#wb-growth-capital">资本市场效应</a>
+    <a href="#wb-growth-screenshots">宣传截图索引</a>
+    <a href="#wb-growth-vs-qclaw">vs QClaw 对比</a>
+  </details>
+  <details>
+    <summary><a href="#wb-arch" style="display:inline;padding:0;border:0">1.5 功能架构 Deepdive</a></summary>
+    <a href="#wb-arch-overview">五大模块协同总览</a>
+    <a href="#wb-arch-m1">模块一：首页/新建任务</a>
+    <a href="#wb-arch-m2">模块二：Claw 远程触达</a>
+    <a href="#wb-arch-m3">模块三：专家中心</a>
+    <a href="#wb-arch-m4">模块四：技能中心</a>
+    <a href="#wb-arch-m5">模块五：自动化</a>
+    <a href="#wb-arch-iteration">产品迭代节奏</a>
+    <a href="#wb-arch-v2">V2 大版本更新</a>
+  </details>
+  <details>
+    <summary><a href="#wb-skill" style="display:inline;padding:0;border:0">1.6 SkillHub 建设</a></summary>
+    <a href="#wb-skill-features">核心特点</a>
+    <a href="#wb-skill-compare">Skill 生态数据对比</a>
+    <a href="#wb-skill-scenes">场景分类调研</a>
+  </details>
+  <div class="nav-divider"></div>
+  <div class="nav-title">📊 二、八大产品横评</div>
+  <details>
+    <summary><a href="#cross-position" style="display:inline;padding:0;border:0">2.1 定位×生态×IM×付费</a></summary>
+    <a href="#cross-position-map">八大产品定位全景</a>
+    <a href="#cross-position-layers">产品分层矩阵</a>
+  </details>
+  <a href="#cross-data">2.2 B端数据集成</a>
+  <details>
+    <summary><a href="#cross-toc" style="display:inline;padding:0;border:0">2.3 To C 场景运营</a></summary>
+    <a href="#cross-toc-scenes">核心场景覆盖</a>
+    <a href="#cross-toc-feedback">用户口碑</a>
+  </details>
+  <a href="#cross-skill">2.4 Skill 生态数据</a>
+  <div class="nav-divider"></div>
+  <div class="nav-title">💡 三、Insights 洞察</div>
+  <details>
+    <summary><a href="#insight-toc" style="display:inline;padding:0;border:0">3.1 To C 市场洞察</a></summary>
+    <a href="#insight-toc-findings">竞争格局核心发现</a>
+    <a href="#insight-toc-demand">刚需 vs 伪需求</a>
+  </details>
+  <details>
+    <summary><a href="#insight-tob" style="display:inline;padding:0;border:0">3.2 To B 市场洞察</a></summary>
+    <a href="#insight-tob-findings">竞争格局核心发现</a>
+    <a href="#insight-tob-integration">集成模式趋势</a>
+    <a href="#insight-tob-ecosystem">IM 生态决定场景</a>
+  </details>
+  <details>
+    <summary><a href="#insight-opportunity" style="display:inline;padding:0;border:0">3.3 OfficeClaw 机会</a></summary>
+    <a href="#insight-opp-position">定位差异化</a>
+    <a href="#insight-opp-gaps">五大行业短板</a>
+    <a href="#insight-opp-priority">优先级 & 对标Gamma</a>
+    <a href="#insight-opp-wb">对标WorkBuddy</a>
+  </details>
+</nav>
+
+<div class="container">
+
+<!-- ===================== HEADER ===================== -->
+<div class="report-header">
+  <h1>🦞 Claw 竞品深度分析报告</h1>
+  <div class="subtitle">维度一：WorkBuddy 纵深调研 &nbsp;|&nbsp; 维度二：八大产品横评对比 &nbsp;|&nbsp; Part 三：Insights 洞察</div>
+  <div class="meta">
+    <span>📅 2026-04-16</span>
+    <span>👤 Ruoqing & Ruiling</span>
+    <span>📊 数据截至 2026.04.13</span>
+  </div>
+</div>
+
+<!-- ===================== TOC ===================== -->
+<div class="toc">
+  <h2>📑 目录导航</h2>
+  <div class="toc-grid">
+    <div>
+      <strong>一、WorkBuddy 纵深调研</strong>
+      <br><a href="#wb-position">1.1 定位与生态格局</a>
+      <br><a href="#wb-im">1.2 IM 接入与产品集成</a>
+      <br><a href="#wb-biz">1.3 商业化模式</a>
+      <br><a href="#wb-growth">1.4 运营增长 vs QClaw 对比</a>
+      <br><a href="#wb-arch">1.5 功能架构 Deepdive</a>
+      <br><a href="#wb-skill">1.6 SkillHub 建设与丰富度</a>
+    </div>
+    <div>
+      <strong>二、八大产品横评对比</strong>
+      <br><a href="#cross-position">2.1 定位 × 生态 × IM × 付费</a>
+      <br><a href="#cross-data">2.2 B端数据集成能力</a>
+      <br><a href="#cross-toc">2.3 To C 场景运营 × 刚需度</a>
+      <br><a href="#cross-skill">2.4 Skill 生态数据对比</a>
+    </div>
+    <div>
+      <strong>三、Insights 洞察</strong>
+      <br><a href="#insight-toc">3.1 To C 市场洞察</a>
+      <br><a href="#insight-tob">3.2 To B 市场洞察</a>
+      <br><a href="#insight-opportunity">3.3 OfficeClaw 机会</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ==================== 维度一：WorkBuddy 纵深 ==================== -->
+<!-- ============================================================ -->
+
+<div class="section" id="wb-position">
+  <div class="section-title"><span class="icon">🎯</span> 1.1 WorkBuddy 定位与生态格局</div>
+
+  <div class="kpi-row">
+    <div class="kpi blue"><div class="value">9大渠道</div><div class="label">5大IM（企微/钉钉/飞书/QQ/微信客服）+ ClawBot/小程序/QQ邮箱/腾讯乐享</div></div>
+    <div class="kpi green"><div class="value">2.2万</div><div class="label">SkillHub 技能总量</div></div>
+    <div class="kpi yellow"><div class="value">36天</div><div class="label">发布 20+ 版本</div></div>
+    <div class="kpi purple"><div class="value">行业第一</div><div class="label">触达渠道数（5大IM + 4个扩展入口）</div></div>
+  </div>
+
+  <div class="card">
+    <h3>🏢 产品概要</h3>
+    <table>
+      <tr><th style="width:150px">维度</th><th>WorkBuddy 详情</th></tr>
+      <tr><td>出品方</td><td><strong>腾讯云 CodeBuddy 团队</strong>（2023年推出 AI 代码助手起步，技术积累3年）</td></tr>
+      <tr><td>一句话定位</td><td><strong>"AI Agent 办公新范式"</strong> —— 全场景 AI 智能体桌面工作台</td></tr>
+      <tr><td>上线时间</td><td>2026.02.06 内测 → <strong>2026.03.09 正式发布</strong>（打磨仅1个月，但有2000+内部员工验证）</td></tr>
+      <tr><td>覆盖系统</td><td>macOS + Windows 桌面端 + 微信小程序</td></tr>
+      <tr><td>核心模型</td><td>混元/DeepSeek/GLM/Kimi/MiniMax（5+大模型切换）</td></tr>
+      <tr><td>迭代速度</td><td>平均 <strong>1.7天/版本</strong>（40天24版本 → 行业最快之一）</td></tr>
+      <tr><td>内部验证</td><td>上线前 <strong>2000+非技术员工</strong>（HR/行政/运营）使用；CodeBuddy 90% 工程师覆盖</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>🌐 生态格局 — 它的"朋友圈"</h3>
+    <table>
+      <tr><th>生态维度</th><th>详情</th><th>评价</th></tr>
+      <tr><td><strong>IM 生态</strong></td><td>5大IM（企微+钉钉+飞书+QQ+微信客服）+ 4个扩展入口（微信ClawBot+微信小程序+QQ邮箱Connector+腾讯乐享Connector）= <strong>9大触达渠道</strong></td><td><span class="chip chip-green">行业第一</span></td></tr>
+      <tr><td><strong>Skill 生态</strong></td><td>SkillHub（2.2万）+ Plugin Market + Desktop Skills = <strong>3个市场合一</strong>；精选95个，预置8个</td><td><span class="chip chip-green">最完整</span></td></tr>
+      <tr><td><strong>腾讯系集成</strong></td><td>腾讯文档、QQ浏览器、腾讯地图等 <strong>10+产品已Skill化</strong></td><td><span class="chip chip-blue">独占优势</span></td></tr>
+      <tr><td><strong>IMA 接入</strong></td><td>2026.03.17 首发笔记插件（注：IMA 是腾讯开放能力，<strong>非WorkBuddy独有</strong>）</td><td><span class="chip chip-yellow">非壁垒</span></td></tr>
+      <tr><td><strong>MCP 协议</strong></td><td>支持 MCP + OAuth 标准接入 → 可扩展第三方工具</td><td><span class="chip chip-blue">标准开放</span></td></tr>
+      <tr><td><strong>企业安全</strong></td><td>AD域控/SSO + Skills白名单 + 操作日志审计 + DLP集成</td><td><span class="chip chip-purple">企业级</span></td></tr>
+    </table>
+
+    <div class="callout callout-yellow">
+      <strong>🔑 核心判断：</strong>WorkBuddy 的护城河 = <strong>腾讯 IM 生态（企微12亿用户）+ SkillHub 本土化生态 + 安全审计体系</strong>。不是单一功能强，而是<strong>生态网络效应</strong>。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔄 生态双栖 — WorkBuddy 同时覆盖 To C 与 To B</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:14%">IM 渠道</th><th style="width:12%">面向</th><th>触达的用户群</th><th>解决的核心场景</th></tr>
+      <tr><td><strong>微信客服号</strong></td><td><span class="chip chip-blue">To C</span></td><td>个人用户（12亿微信用户池）</td><td>基础消息交互 / 初期IM入口（后被ClawBot增强）</td></tr>
+      <tr><td><strong>微信 ClawBot</strong></td><td><span class="chip chip-blue">To C</span></td><td>个人用户（微信生态内）</td><td>扫码即用 / 2分钟配置 / 远程操控（"地铁上发消息让龙虾准备PPT"）</td></tr>
+      <tr><td><strong>微信小程序</strong></td><td><span class="chip chip-blue">To C</span></td><td>微信用户（无需安装，扫码即用）</td><td>语音操控 / 拍照传文件 / 移动端轻量入口</td></tr>
+      <tr><td><strong>QQ</strong></td><td><span class="chip chip-blue">To C</span></td><td>年轻用户 / 学生群体</td><td>学习辅助 / 内容创作 / 社交场景</td></tr>
+      <tr class="highlight"><td><strong>企业微信</strong></td><td><span class="chip chip-green">To B</span></td><td>传统企业 / 零售 / 制造 / 政务</td><td>客户管理 / 内部审批 / 多部门Agent隔离 / OA集成</td></tr>
+      <tr class="highlight"><td><strong>飞书</strong></td><td><span class="chip chip-green">To B</span></td><td>互联网 / 科技公司 / 创业团队</td><td>项目协作 / 文档生成 / 会议纪要 / OKR联动</td></tr>
+      <tr class="highlight"><td><strong>钉钉</strong></td><td><span class="chip chip-green">To B</span></td><td>中小企业 / 教育 / 政企</td><td>考勤审批 / 排班管理 / 家校互动 / 会议调度</td></tr>
+      <tr><td><strong>QQ邮箱 Connector</strong></td><td><span class="chip chip-purple">双栖</span></td><td>个人+企业邮箱用户</td><td>邮件自动化 / 附件处理 / 邮件摘要</td></tr>
+      <tr><td><strong>腾讯乐享 Connector</strong></td><td><span class="chip chip-green">To B</span></td><td>使用腾讯乐享的企业用户</td><td>企业知识库集成 / 内部文档检索 / 知识沉淀</td></tr>
+    </table>
+    </div>
+    <div class="callout callout-green">
+      <strong>💡 生态双栖洞察：</strong><br>
+      WorkBuddy 通过 <strong>5大IM平台 + 4个扩展入口 = 9大触达渠道</strong>，同时覆盖 To C 和 To B 两条线：<br>
+      • <strong>To C</strong>：微信客服号 + ClawBot + 小程序 + QQ → 个人用户的"移动AI助手"（轻量+高频+零门槛）<br>
+      • <strong>To B</strong>：企微 + 飞书 + 钉钉 + 腾讯乐享 → 企业用户的"AI办公工作台"（管控+协作+知识库）<br>
+      • <strong>双栖</strong>：QQ邮箱 → 个人与企业邮件场景兼顾<br>
+      • 同一个产品，同一套Skill能力，通过<strong>不同IM入口服务不同场景</strong> — 这是WorkBuddy"一鱼多吃"的核心策略<br><br>
+      <strong>关键启示：</strong>每个IM背后是不同的企业生态和办公习惯 — <strong>企微=客户管理，飞书=项目协作，钉钉=考勤审批</strong>。WorkBuddy选择"全都要"，但也意味着每个场景都不够深入。<strong>深度绑定单一生态（如微软 Teams/Outlook）可能比广撒网更有壁垒。</strong>
+    </div>
+  </div>
+</div>
+
+<!-- 1.2 IM -->
+<div class="section" id="wb-im">
+  <div class="section-title"><span class="icon">💬</span> 1.2 IM 接入与产品集成</div>
+
+  <div class="card">
+    <h3>📱 IM 接入时间线 — WorkBuddy 从0到9大触达渠道只用了30天</h3>
+    <table>
+      <tr><th>时间</th><th>WorkBuddy</th><th>QClaw</th><th>EasyClaw</th><th>灵犀Claw</th></tr>
+      <tr><td>Day 1</td><td>—</td><td>微信客服号 (1)</td><td>—</td><td class="highlight">微信+飞书+WPS 等6渠道同时上线</td></tr>
+      <tr><td>Day 5</td><td>—</td><td>—</td><td>WhatsApp (1)</td><td>—</td></tr>
+      <tr><td>Day 7-14</td><td>飞书 Markdown 通知</td><td>—</td><td>飞书 + 企微 (3)</td><td>—</td></tr>
+      <tr class="highlight"><td>Day 15-18</td><td><strong>一次性上线5渠道</strong>（企微+钉钉+飞书+QQ+微信客服）</td><td>微信小程序升级</td><td>—</td><td>—</td></tr>
+      <tr><td>Day 19-25</td><td>微信 ClawBot (6)</td><td>—</td><td>微信频道 (4)</td><td>—</td></tr>
+      <tr><td>Day 26-30</td><td>微信小程序 (8)</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td>Day 30+</td><td><strong>9大触达渠道（5大IM+4扩展入口）</strong></td><td>1渠道（仅微信）</td><td>4渠道</td><td><strong>6渠道</strong>（微信/企微Bot/钉钉/飞书/WPS协作/QQ Bot）</td></tr>
+    </table>
+
+    <div class="callout callout-blue">
+      <strong>💡 关键洞察：</strong>WorkBuddy Day 15 的"5渠道同步上线"是标志性节点 —— 一次性打通企微+钉钉+飞书+QQ+微信客服，覆盖中国<strong>所有主流办公IM</strong>。这使得企业客户"无需更换现有IM即可接入AI Agent"。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔗 企业微信深度集成架构</h3>
+    <div class="two-col">
+      <div>
+        <h4 style="margin-bottom:8px">两种集成方式</h4>
+        <table>
+          <tr><th>方式</th><th>技术方案</th><th>适用</th></tr>
+          <tr><td><strong>WebSocket长连接</strong> <span class="chip chip-green">推荐</span></td><td>客户端主动建立持久连接</td><td>大多数场景</td></tr>
+          <tr><td>URL回调</td><td>企微向指定URL推送事件</td><td>已有公网服务</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin-bottom:8px">多部门场景配置</h4>
+        <table>
+          <tr><th>部门</th><th>Agent配置</th></tr>
+          <tr><td>销售</td><td>独立Agent + CRM/合同/报价 Skill</td></tr>
+          <tr><td>技术</td><td>独立Agent + GitHub/CI/CD Skill</td></tr>
+          <tr><td>HR</td><td>独立Agent + 考勤/审批 Skill</td></tr>
+          <tr><td>财务</td><td>独立Agent + 报销/预算（只读）Skill</td></tr>
+          <tr><td>全公司</td><td>共享Agent + 知识库/OA/日程</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🖥️ 用户触达方式全景</h3>
+    <table>
+      <tr><th>触达方式</th><th>WorkBuddy</th><th>灵犀Claw</th><th>EasyClaw</th><th>QClaw</th><th>ArkClaw</th><th>OpenClaw</th></tr>
+      <tr><td>桌面客户端</td><td>✅</td><td>✅ WPS内嵌</td><td>✅</td><td>✅</td><td>❌</td><td>✅</td></tr>
+      <tr><td>浏览器插件</td><td>❌</td><td>❌</td><td class="highlight">✅ 唯一</td><td>❌</td><td>❌</td><td>❌</td></tr>
+      <tr><td>小程序</td><td>⏳ 规划中(ADP)</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
+      <tr><td>IM 接入</td><td class="highlight">✅ 9大渠道（5大IM+4扩展）</td><td>✅ 6渠道（微信/企微Bot/钉钉/飞书/WPS协作/QQ Bot）</td><td>⚠️ 微信桌面自动化</td><td>✅ 企微/腾讯会议</td><td>✅ 飞书/企微</td><td>❌</td></tr>
+      <tr><td>移动 APP</td><td>❌</td><td>✅ WPS移动</td><td>❌</td><td>❌</td><td>❌</td><td>❌</td></tr>
+      <tr><td>Web 端</td><td>❌</td><td>✅ WPS网页</td><td>❌</td><td>❌</td><td>✅</td><td>❌</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 1.3 商业化 -->
+<div class="section" id="wb-biz">
+  <div class="section-title"><span class="icon">💰</span> 1.3 商业化模式</div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>🔵 To C 模式 — 积分制免费获客</h3>
+      <table>
+        <tr><th>项目</th><th>详情</th></tr>
+        <tr><td>新用户赠送</td><td><strong>5,000 Credits</strong>（≈1.59亿 Tokens）</td></tr>
+        <tr><td>每日签到</td><td>+100 Credits</td></tr>
+        <tr><td>裂变激励</td><td>合伙养虾计划 → 分享→注册→使用/付费升级，分层奖励</td></tr>
+        <tr><td>预计个人Pro</td><td>约 ¥99/月（参考行业定价）</td></tr>
+        <tr><td>当前阶段</td><td><span class="chip chip-yellow">公测圈地</span> 尚未正式收费</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🟢 To B 模式 — 企业License双轨预测</h3>
+      <table>
+        <tr><th>对比维度</th><th>个人版</th><th>企业版</th></tr>
+        <tr><td>登录方式</td><td>微信/QQ个人号</td><td>企微SSO/AD域控</td></tr>
+        <tr><td>数据权限</td><td>个人隔离</td><td>部门/角色/项目分级</td></tr>
+        <tr><td>Skills管理</td><td>自由安装</td><td>白名单管控+管理员审批</td></tr>
+        <tr><td>计费方式</td><td>月付/积分</td><td>年度License按席位阶梯</td></tr>
+        <tr><td>数据安全</td><td>标准加密</td><td>私有化部署+审计日志+DLP</td></tr>
+        <tr><td>技术支持</td><td>社区</td><td>专属客服+SLA保障</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 行业定价全景（参考锚点）</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>产品</th><th>免费层</th><th>入门付费</th><th>专业/高端</th><th>策略阶段</th></tr>
+      <tr class="highlight"><td><strong>WorkBuddy</strong></td><td>5000 Credits</td><td>未公布（预计 ¥99/月）</td><td>企业定制</td><td>圈地期</td></tr>
+      <tr><td>灵犀Claw</td><td>内测限时免费</td><td>预计跟 WPS 会员（25-35元/月）</td><td>未公布</td><td>内测期</td></tr>
+      <tr><td>EasyClaw</td><td>200积分/天</td><td>Plus ¥39/月 · Pro ¥79/月</td><td>Ultra ¥199/月 · 企业定制</td><td><span class="chip chip-green">最成熟</span></td></tr>
+      <tr><td>QClaw</td><td>4000万Token/天 ≈ 无限</td><td>未公布</td><td>ClawHub 付费Skill分成</td><td>圈地期</td></tr>
+      <tr><td>ArkClaw</td><td>Lite 首月 ¥9.9</td><td>Pro 首月 ¥49.9</td><td>—</td><td>早期商业化</td></tr>
+      <tr><td>Kimi Claw</td><td>—</td><td>包含在 ¥199/月会员中</td><td>—</td><td>捆绑销售</td></tr>
+    </table>
+    </div>
+    <div class="callout callout-green">
+      <strong>💡 定价洞察：</strong>① 免费层是标配（行业入场券）；② EasyClaw 的 39/79/199 三级定价最成熟、可参考；③ 腾讯系（WorkBuddy/QClaw）仍在"免费圈地"阶段；④ 行业区间：个人版 9.9-49.9元/月，专业版 79-199元/月。
+    </div>
+  </div>
+</div>
+
+<!-- 1.4 运营增长 -->
+<div class="section" id="wb-growth">
+  <div class="section-title"><span class="icon">🚀</span> 1.4 运营增长 — WorkBuddy 推广宣发分析</div>
+
+  <!-- 总：策略总结（先看全局） -->
+  <div class="card">
+    <h3 id="wb-growth-overview">🎯 推广策略总览 — 六大核心打法</h3>
+    <div class="kpi-row" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi blue" style="text-align:left;padding:20px">
+        <div style="font-size:18px;font-weight:700;margin-bottom:6px">🌊 借势营销</div>
+        <div style="font-size:12.5px;color:var(--gray)">踩准OpenClaw"龙虾热"，昵称"腾讯版小龙虾"极易传播，"养虾"梗文化降低认知门槛</div>
+      </div>
+      <div class="kpi green" style="text-align:left;padding:20px">
+        <div style="font-size:18px;font-weight:700;margin-bottom:6px">📱 微信生态锁定</div>
+        <div style="font-size:12.5px;color:var(--gray)">客服消息→小程序三步递进，用已有14亿微信用户作天然分发渠道，无须改变用户习惯</div>
+      </div>
+      <div class="kpi yellow" style="text-align:left;padding:20px">
+        <div style="font-size:18px;font-weight:700;margin-bottom:6px">🎁 福利钩子</div>
+        <div style="font-size:12.5px;color:var(--gray)">免费Credits大礼包 + 百万Credits悬赏双轮驱动，拉新+UGC内容生产一石二鸟</div>
+      </div>
+      <div class="kpi red" style="text-align:left;padding:20px">
+        <div style="font-size:18px;font-weight:700;margin-bottom:6px">🔥 危机逆转</div>
+        <div style="font-size:12.5px;color:var(--gray)">上线宕机+10倍扩容公告反成"产品太火爆"的正向证明，教科书级危机公关</div>
+      </div>
+      <div class="kpi purple" style="text-align:left;padding:20px">
+        <div style="font-size:18px;font-weight:700;margin-bottom:6px">👨‍💼 高管背书</div>
+        <div style="font-size:12.5px;color:var(--gray)">马化腾朋友圈转发 + 汪晟杰媒体专访，官方权威背书和人格化传播结合</div>
+      </div>
+      <div class="kpi" style="text-align:left;padding:20px;background:#fff;box-shadow:var(--card-shadow)">
+        <div style="font-size:18px;font-weight:700;margin-bottom:6px">🎬 场景化内容</div>
+        <div style="font-size:12.5px;color:var(--gray)">"3分钟处理1095个文件"、"30分钟完成3小时工作"等极具说服力的具体数字场景</div>
+      </div>
+    </div>
+    <div class="callout callout-green">
+      <strong>🔑 增长飞轮模型：</strong><br>
+      <strong>入口拉动</strong>（5大IM平台 + 小程序等9大渠道 → 高频触达）→ <strong>补贴驱动</strong>（5000 Credits 免费 → 降低试用门槛）→ <strong>裂变增长</strong>（合伙养虾 → 分享邀请激励）→ <strong>生态留存</strong>（Skills/MCP → 沉淀工作流 → 复用留存）→ 循环
+    </div>
+    <div class="callout callout-blue">
+      <strong>📝 推广节奏核心逻辑：</strong>技术积累（2023-2025）→ 内测打磨（2026.1-2）→ 线下预热造势（3.6）→ 全渠道爆发上线（3.9）→ 快速迭代持续曝光（3.12-4月）→ 生态扩展口碑沉淀。<br>
+      整体呈现 <strong>"慢热蓄水、快推引爆、持续跟进"</strong> 的三段式节奏，堪称大厂推新工具的教科书级打法。
+    </div>
+  </div>
+
+  <!-- 总：推广四阶段 -->
+  <div class="card">
+    <h3 id="wb-growth-phases">📈 推广四阶段总览</h3>
+    <table>
+      <tr><th>阶段</th><th>时间</th><th>核心动作</th><th>效果</th></tr>
+      <tr><td><span class="chip chip-yellow">预热造势</span></td><td>3月6日</td><td>深圳滨海大厦<strong>免费摆摊装龙虾</strong>，80%参与者为非技术用户</td><td>近千人排队 · <strong>登上微博热搜</strong> · 马化腾朋友圈转发</td></tr>
+      <tr class="highlight"><td><span class="chip chip-red">全渠道爆发</span></td><td>3月9-10日</td><td>正式上线 + 5000 Credits赠送 + 当晚宕机 → 致歉+10倍扩容</td><td><strong>腾讯股价+7.27%</strong> · 单日市值+3400亿港元 · 重回5万亿</td></tr>
+      <tr><td><span class="chip chip-blue">持续迭代</span></td><td>3.11-4月</td><td>百万Credits悬赏活动(5周) + 每1-2周大更新 + 微信直连 + 小程序</td><td>20+主流媒体报道 · KOL矩阵二次放大 · 华尔街见闻二度专访</td></tr>
+      <tr><td><span class="chip chip-green">口碑裂变</span></td><td>持续</td><td>"养龙虾"社交话题 + UGC悬赏 + 场景化数字（"3分钟处理1095个文件"）</td><td>知乎/掘金/CSDN 大量实战教程 · 花旗维持买入目标价783港元</td></tr>
+    </table>
+  </div>
+
+  <!-- 分：详细时间线 -->
+  <div class="card">
+    <h3 id="wb-growth-timeline">📣 宣发详细时间线</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:12%">时间</th><th style="width:22%">事件 / 节点</th><th style="width:36%">宣发动作</th><th>效果 / 数据</th></tr>
+      <tr><td>2023年中</td><td>AI 代码助手 CodeBuddy 上线</td><td>内部技术布局，积累 Agent 能力</td><td>为 WorkBuddy 提供3年技术底座</td></tr>
+      <tr><td>2026.01</td><td>WorkBuddy 内部使用</td><td>不对外宣传，纯内部打磨体验</td><td>内部 2000+ 非技术员工（HR/行政/运营）试用验证</td></tr>
+      <tr><td>2026.02.06</td><td>首次公开，启动内测</td><td>小范围种子用户，低调获取反馈</td><td>打磨约1个月，CodeBuddy 90% 工程师已覆盖</td></tr>
+      <tr class="highlight"><td><strong>2026.03.06</strong></td><td><strong>🦞 深圳滨海大厦"免费摆摊装龙虾"</strong></td><td><span class="chip chip-red">线下事件营销</span> → 近千人排队（80%非技术用户）→ <strong>登上微博热搜</strong> → 马化腾朋友圈转发 → X平台病毒传播</td><td><strong>现象级事件</strong>：国际化出圈，低成本制造社交话题</td></tr>
+      <tr class="highlight"><td><strong>2026.03.09</strong></td><td><strong>🚀 正式上线日</strong></td><td>36氪首发 + 5000 Credits赠送 + 当晚因流量激增宕机</td><td>首日用户涌入远超预期</td></tr>
+      <tr class="highlight"><td><strong>2026.03.10</strong></td><td><strong>📈 资本市场引爆</strong></td><td>致歉 + 紧急扩容<strong>10倍</strong>算力 + 补偿1000 Credits</td><td><strong>腾讯+7.27%</strong> · 单日市值+3400亿港元 · 重回5万亿 · 花旗目标价783港元</td></tr>
+      <tr><td>2026.03.11</td><td>💰 百万Credits悬赏活动启动</td><td>"秀出你的 WorkBuddy Claw 实战" → 持续5周（3/10-4/10）→ <strong>总奖励100万Credits</strong></td><td>激励UGC内容持续产出 → 扩大二次传播</td></tr>
+      <tr><td>2026.03.12</td><td>微信一键直连上线</td><td>"在地铁上发消息让龙虾准备会议材料，到公司PPT已做好" → 差异化场景传播</td><td>移动端语音操控成为核心卖点</td></tr>
+      <tr><td>2026.03.13</td><td>媒体密集沟通期</td><td>产品负责人<strong>汪晟杰</strong>接受华尔街见闻专访，披露"请求量瞬间超过CodeBuddy很多倍"；21世纪经济报道记者实测</td><td>20+主流媒体（36氪/钛媒体/界面/新浪财经/深圳新闻网）全链路报道</td></tr>
+      <tr><td>2026.03.18</td><td>💼 马化腾战略定调</td><td>马化腾在<strong>财报沟通会</strong>确认：2026年 AI 新品投入至少翻倍</td><td>最高层战略背书 → B端客户信心提振</td></tr>
+      <tr><td>2026.03.19</td><td>4.6.0 大版本 + 5大IM一次性打通</td><td><span class="chip chip-blue">功能爆发 + 新闻稿</span>：专家中心 + MCP + 插件市场 + 5大IM平台同步上线</td><td>从"聊天工具"升级为"AI工作台"品类定义</td></tr>
+      <tr><td>2026.03.22</td><td>微信 ClawBot 上线</td><td>社区教程爆发：知乎/掘金/CSDN 大量实战教程</td><td>UGC 内容自发传播</td></tr>
+      <tr class="highlight"><td><strong>2026.03.27</strong></td><td><strong>🎤 腾讯云上海峰会</strong></td><td><span class="chip chip-purple">高管站台</span>：副总裁发布 Agent 全景图 → 公布2026路线图</td><td>企业级市场信号释放 → B端客户认知建立</td></tr>
+      <tr><td>2026.03.30</td><td>微信小程序版上线</td><td>宣传语：<strong>"挑战一下，明天上班不带电脑试试"</strong></td><td>嵌入14亿微信用户池</td></tr>
+      <tr><td>2026.04.13</td><td>🗞️ 华尔街见闻二度专访</td><td><em>「对话腾讯WorkBuddy负责人：一个想对标Cowork的产品野心」</em></td><td>从"工具"升级为"平台野心"的信号</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <!-- 分：宣发渠道 -->
+  <div class="card">
+    <h3 id="wb-growth-channels">📊 宣发渠道矩阵</h3>
+    <table>
+      <tr><th>渠道类型</th><th>具体渠道</th><th>内容形式</th><th>目标</th></tr>
+      <tr><td><span class="chip chip-red">付费流量</span></td><td>腾讯系广告投放（约2.8亿资源）</td><td>信息流 + 开屏 + 搜索</td><td>首日爆发获客</td></tr>
+      <tr><td><span class="chip chip-blue">权威媒体</span></td><td>36氪、华尔街见闻、智东西、IT之家、凤凰科技</td><td>首发独家 + 产品评测 + 高管专访</td><td>品牌认知 + 可信度背书</td></tr>
+      <tr><td><span class="chip chip-green">技术社区</span></td><td>知乎、掘金、CSDN、腾讯云社区</td><td>实战教程 + 深度评测 + 问答</td><td>开发者/极客圈影响力 + SEO</td></tr>
+      <tr><td><span class="chip chip-purple">社交媒体</span></td><td>微博（张军官宣）、X/Twitter、微信公众号</td><td>话题制造 + 高管站台 + 病毒传播</td><td>破圈 + 国际化</td></tr>
+      <tr><td><span class="chip chip-yellow">线下活动</span></td><td>深圳"免费装龙虾"、腾讯云上海峰会</td><td>体验式营销 + 行业大会</td><td>线下引爆线上 + B端客户认知</td></tr>
+      <tr><td><span class="chip chip-gray">UGC/口碑</span></td><td>合伙养虾计划、社区案例征集、教程激励</td><td>用户自发教程 + 使用案例 + 邀请裂变</td><td>零成本长尾增长</td></tr>
+    </table>
+  </div>
+
+  <!-- 分：营销活动 -->
+  <div class="card">
+    <h3 id="wb-growth-campaigns">🎁 核心营销活动汇总</h3>
+    <table>
+      <tr><th>活动名称</th><th>时间</th><th>形式</th><th>奖励/规模</th><th>核心目标</th></tr>
+      <tr><td><strong>上线专属见面礼</strong></td><td>3/9 - 3/31</td><td>国内版用户无门槛领取</td><td><strong>5000 Credits/人</strong></td><td>降低试用门槛，冷启动拉新</td></tr>
+      <tr class="highlight"><td><strong>百万Credits悬赏</strong></td><td>3/10 - 4/10（5周）</td><td>UGC征集："秀出你的 Claw 实战"</td><td><strong>总奖励100万Credits</strong></td><td>激励UGC内容 → 扩大二次传播</td></tr>
+      <tr><td><strong>深圳线下摆摊</strong></td><td>3/6</td><td>腾讯滨海大厦广场，工程师现场帮装</td><td><strong>近千人排队</strong></td><td>话题制造 → 触达大众用户</td></tr>
+      <tr><td><strong>服务故障补偿</strong></td><td>3/10 + 4/2</td><td>故障后主动补偿</td><td><strong>1000 Credits/人</strong></td><td>口碑维护 → 危机转正面</td></tr>
+      <tr><td><strong>免费云资源福利</strong></td><td>截至3/31</td><td>腾讯云开发资源赠送</td><td>开发到部署一站式</td><td>绑定开发者生态</td></tr>
+    </table>
+  </div>
+
+  <!-- 分：资本市场效应 -->
+  <div class="card">
+    <h3 id="wb-growth-capital">📈 资本市场效应 — 推广效果的终极佐证</h3>
+    <div class="kpi-row">
+      <div class="kpi red"><div class="value">+7.27%</div><div class="label">上线当日腾讯股价涨幅（近半年最大）</div></div>
+      <div class="kpi blue"><div class="value">+3400亿</div><div class="label">单日新增市值（港元）</div></div>
+      <div class="kpi green"><div class="value">5万亿+</div><div class="label">腾讯总市值重回（港元）</div></div>
+      <div class="kpi yellow"><div class="value">783港元</div><div class="label">花旗银行目标价（维持买入）</div></div>
+    </div>
+    <div class="callout callout-green">
+      <strong>💡 资本市场解读：</strong>WorkBuddy 上线不仅带动腾讯自身+7.27%，还拉动 MiniMax+22.37%、智谱+12.87%、阿里+3.73% —— <strong>一款AI Agent产品的发布引发了整个AI板块的资本市场联动效应</strong>。
+    </div>
+  </div>
+
+  <!-- 分：宣传语 & 口碑 -->
+  <div class="card">
+    <h3>💬 核心宣传语 & 用户口碑</h3>
+    <div class="two-col">
+      <div>
+        <h4 style="margin-bottom:8px">📢 官方宣传语</h4>
+        <div class="callout callout-blue" style="margin:0">
+          <em>"你的AI同事，今日上岗。"</em> —— 官方发布语<br><br>
+          <em>"手机是遥控器，电脑或云端在替你干活。"</em> —— 小程序宣传语<br><br>
+          <em>"挑战一下，明天上班不带电脑试试。"</em> —— 小程序发布语<br><br>
+          <em>"国内首个IM原生AI Agent平台"</em> —— 百万Credits活动语
+        </div>
+      </div>
+      <div>
+        <h4 style="margin-bottom:8px">👥 用户真实口碑</h4>
+        <div class="callout callout-green" style="margin:0 0 8px">
+          ✅ <em>"3分钟处理1095个文件，比手动快100倍"</em><br>
+          ✅ <em>"30分钟完成传统3-4小时的推文工作"</em><br>
+          ✅ <em>"OpenClaw让我望而却步，WorkBuddy让我觉得'原来这个我能用'"</em><br>
+          ✅ <em>"配置便利性 9.2/10，数据可视化 9.5/10"</em>
+        </div>
+        <div class="callout callout-yellow" style="margin:0">
+          ⚠️ <em>"部分功能不完善，有点赶鸭子上架"</em><br>
+          ⚠️ <em>"生成内容质量忽高忽低，需人工修改"</em><br>
+          ⚠️ <em>"复杂任务卡顿，积分消耗比预期多"</em>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 分：截图证据链接 -->
+  <div class="card">
+    <h3 id="wb-growth-screenshots">📸 关键宣传截图索引（点击链接查看原始页面）</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:8%">📌</th><th style="width:25%">内容</th><th style="width:42%">说明</th><th>链接</th></tr>
+      <tr><td>🏠</td><td><strong>WorkBuddy 官网首屏</strong></td><td>Banner："AI Agent 办公新范式"</td><td><a href="https://copilot.tencent.com/work/" target="_blank" style="color:var(--blue)">▶ 官网 →</a></td></tr>
+      <tr><td>🎯</td><td><strong>官方公测发布文</strong></td><td>"Hi，你的一号员工WorkBuddy，今日上岗公测！"</td><td><a href="https://developer.cloud.tencent.com/article/2635686" target="_blank" style="color:var(--blue)">▶ 腾讯云首发 →</a></td></tr>
+      <tr><td>💰</td><td><strong>百万Credits悬赏</strong></td><td>"国内首个IM原生AI Agent平台"</td><td><a href="https://cloud.tencent.com/developer/article/2635883" target="_blank" style="color:var(--blue)">▶ 活动详情 →</a></td></tr>
+      <tr><td>📱</td><td><strong>微信小程序上线</strong></td><td>"挑战一下，明天上班不带电脑试试"</td><td><a href="https://news.qq.com/rain/a/20260331A03M1V00" target="_blank" style="color:var(--blue)">▶ 腾讯新闻 →</a></td></tr>
+      <tr><td>🦞</td><td><strong>深圳摆摊活动</strong></td><td>近千人排队 · 登上微博热搜</td><td><a href="https://www.sohu.com/a/996874979_120085324" target="_blank" style="color:var(--blue)">▶ 搜狐报道 →</a></td></tr>
+      <tr><td>🗞️</td><td><strong>华尔街见闻专访</strong></td><td>"一个想对标Cowork的产品野心"</td><td><a href="https://wallstreetcn.com/articles/3767486" target="_blank" style="color:var(--blue)">▶ 专访原文 →</a></td></tr>
+      <tr><td>📈</td><td><strong>36氪：市值重回5万亿</strong></td><td>腾讯+7.27% · 单日+3400亿港元</td><td><a href="https://www.36kr.com/p/3717181683643784" target="_blank" style="color:var(--blue)">▶ 36氪报道 →</a></td></tr>
+      <tr><td>📰</td><td><strong>21世纪经济报道实测</strong></td><td>"发出指令后即可读取桌面文件名"</td><td><a href="https://www.21jingji.com/article/20260312/herald/1c2a78c155be541c45a6fc655ba2ae0e.html" target="_blank" style="color:var(--blue)">▶ 21经报道 →</a></td></tr>
+    </table>
+    </div>
+  </div>
+
+  <!-- 分析提炼：策略拆解 + 业内评价 -->
+  <div class="card">
+    <h3>🔍 宣发策略深度拆解</h3>
+    <div class="two-col">
+      <div>
+        <table>
+          <tr><th>策略</th><th>具体做法</th></tr>
+          <tr><td><strong>① 借势"龙虾"热词</strong></td><td>绑定 OpenClaw 生态品类词（GitHub 35万+ Star），降低用户教育成本</td></tr>
+          <tr><td><strong>② 线下引爆线上</strong></td><td>"免费装龙虾" → X平台病毒传播 → 国际化出圈</td></tr>
+          <tr><td><strong>③ 危机公关反转</strong></td><td>首日崩溃 → 致歉+补偿 → "最真诚道歉"二次传播</td></tr>
+        </table>
+      </div>
+      <div>
+        <table>
+          <tr><th>策略</th><th>具体做法</th></tr>
+          <tr><td><strong>④ 快速迭代=持续曝光</strong></td><td>1.7天/版本 · 36天20+版本 · 每次更新配宣发</td></tr>
+          <tr><td><strong>⑤ 裂变增长飞轮</strong></td><td>合伙养虾（分层奖励）+ UGC案例征集</td></tr>
+          <tr><td><strong>⑥ 高管+品牌站台</strong></td><td>腾讯云峰会副总裁 + 张军微博官宣</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="callout callout-blue">
+      <strong>📝 业内评价：</strong><br>
+      <em>"看腾讯这么大的体量，推新工具，依然老老实实走流程：先造氛围，先搞预热，然后再出牌。"</em> —— 业内观察者<br>
+      <em>"龙虾的热度确实高过能力，但它是普通人拥抱 AI 浪潮的第一步。"</em> —— 腾讯龙虾团队
+    </div>
+  </div>
+
+  <!-- 对比总结：vs QClaw -->
+  <div class="card">
+    <h3 id="wb-growth-vs-qclaw">⚔️ WorkBuddy vs QClaw 增长策略差异</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>维度</th><th>WorkBuddy</th><th>QClaw</th></tr>
+      <tr><td><strong>核心获客引擎</strong></td><td>IM 全覆盖 + 2.8亿流量</td><td>腾讯电脑管家内置 + 微信深度绑定</td></tr>
+      <tr><td><strong>冷启动补贴</strong></td><td>5000 Credits</td><td>4000万Token/天（≈无限弹药）</td></tr>
+      <tr><td><strong>裂变机制</strong></td><td>合伙养虾计划（分层奖励）</td><td>社区口碑传播（无正式裂变）</td></tr>
+      <tr><td><strong>内容策略</strong></td><td>技术评测 KOL 矩阵</td><td>腾讯云社区深度文</td></tr>
+      <tr><td><strong>生态留存</strong></td><td>Skills + MCP → 工作流沉淀</td><td>预置39 Skill → 开箱即用</td></tr>
+      <tr><td><strong>迭代速度</strong></td><td>1.7天/版本（40天24版）</td><td>~2周/大版本</td></tr>
+    </table>
+    </div>
+    <div class="callout callout-blue">
+      <strong>💡 关键差异：</strong>WorkBuddy 核心打法是"IM入口+流量轰炸+裂变"，QClaw 走"零门槛+免费Token+微信深度绑定"。两者都是腾讯系，但策略截然不同 —— WorkBuddy 追求全覆盖，QClaw 追求微信单点极致。
+    </div>
+  </div>
+
+</div>
+
+<!-- 1.5 功能架构 -->
+<div class="section" id="wb-arch">
+  <div class="section-title"><span class="icon">🏗️</span> 1.5 功能架构 Deepdive</div>
+
+  <div class="callout callout-yellow">
+    <strong>🔑 核心发现：</strong>WorkBuddy 围绕 <strong>Claw（远程触达与执行）</strong>的全面运营已启动 —— 从腾讯文档等生态入口导流，到 IM/小程序触发，产品主语已从"对话"升级为<strong>"可交付任务"</strong>。以下逐一拆解5大核心功能模块。
+  </div>
+
+  <div class="card">
+    <h3 id="wb-arch-overview">📊 功能架构总览 — 五大模块协同</h3>
+    <table>
+      <tr><th>模块</th><th>定位</th><th>核心价值</th><th>增长角色</th></tr>
+      <tr><td><strong>① 首页/新建任务</strong></td><td>任务化交互入口</td><td>从"聊天"升级为"可交付任务工作台"</td><td>转化：冷启动快捷标签 → 首次任务</td></tr>
+      <tr><td><strong>② Claw 远程触达</strong></td><td>IM连接 + 统一指令</td><td>微信/企微随时触发 → 桌面执行</td><td><strong>获客：高频触达 = 战略增长入口</strong></td></tr>
+      <tr><td><strong>③ 专家中心</strong></td><td>岗位化能力套餐</td><td>100+专家卡片 → 降低使用门槛</td><td>活跃：探索发现 → 尝试新专家</td></tr>
+      <tr><td><strong>④ 技能中心</strong></td><td>交付物 + 生态扩展</td><td>pptx/docx/xlsx + SkillHub/MCP + 腾讯系</td><td>深度：能力越装越多 → 沉淀成本</td></tr>
+      <tr class="highlight"><td><strong>⑤ 自动化</strong></td><td>周期性数字同事</td><td>一次设置 → 持续产出（新闻/周报/提醒）</td><td><strong>留存：从"一次性使用"到"日常依赖"</strong></td></tr>
+    </table>
+    <div class="callout callout-green">
+      <strong>🔑 产品架构核心逻辑：</strong>Claw（远程触达）<strong>拉活</strong> → 首页（任务化）<strong>转化</strong> → 专家/技能（能力套餐）<strong>深入</strong> → 自动化（周期性）<strong>留存</strong> — 形成完整的用户生命周期闭环。
+    </div>
+  </div>
+
+  <!-- 2.1 首页/新建任务 -->
+  <div class="card">
+    <h3 id="wb-arch-m1">📋 模块一：首页 / 新建任务 — 把"对话"升级为"可交付任务工作台"</h3>
+    <div style="text-align:center;margin:16px 0">
+      <img src="image1.png" alt="WorkBuddy 首页截图" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.15)">
+      <div class="small-note" style="margin-top:6px">▲ WorkBuddy 首页：左侧导航 + 任务类型切换 + 快捷标签 + Craft/Auto/Skills 执行开关</div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h4 style="margin-bottom:8px">核心功能</h4>
+        <table>
+          <tr><th>功能点</th><th>说明</th></tr>
+          <tr><td>① 左侧导航</td><td>5大一级模块：新建任务 / Claw / 专家 / 技能 / 自动化</td></tr>
+          <tr><td>② 任务类型分流</td><td>将用户意图分流为<strong>代码开发 vs 日常办公</strong>，降低选择成本</td></tr>
+          <tr><td>③ 快捷任务标签</td><td>文档处理 / 数据分析 / 深度研究 / 幻灯片 / 设计 / 邮件编辑 等一键触发</td></tr>
+          <tr><td>④ 执行方式显性化</td><td>输入框上方 <strong>Craft / Auto / Skills</strong> 明确开关 — 提示用户"任务会被执行与交付"</td></tr>
+          <tr><td>⑤ 工作目录选择</td><td>要求用户选择文件夹 → 把本地执行边界在 UI 层显性表达，强调权限可控</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin-bottom:8px">产品特点提炼</h4>
+        <div class="callout callout-blue" style="margin:0">
+          <strong>🎯 任务化交互：</strong>产品主语是<strong>"任务/交付物"</strong>而非"消息" — 从第一屏就告诉用户"这不是聊天工具"<br><br>
+          <strong>🛡️ 执行可控：</strong>执行模式（Craft/Auto/Skills）与工作目录被<strong>前置</strong>，强调可控与可验收<br><br>
+          <strong>📈 冷启动运营位：</strong>快捷标签如同"模板/提示词入口"，承接增长埋点（点击→生成→交付→复用）
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.2 Claw 远程触达 -->
+  <div class="card">
+    <h3 id="wb-arch-m2">📡 模块二：Claw — 远程触达（IM连接）+ 统一指令入口</h3>
+    <div style="text-align:center;margin:16px 0">
+      <img src="image2.png" alt="WorkBuddy Claw模块截图" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.15)">
+      <div class="small-note" style="margin-top:6px">▲ Claw 模块：IM 连接引导 + 统一输入框 + Craft/Auto/Skills + 目标执行环境切换</div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h4 style="margin-bottom:8px">核心功能</h4>
+        <table>
+          <tr><th>功能点</th><th>说明</th></tr>
+          <tr><td>① Claw 一级入口</td><td>在左侧导航中作为<strong>独立一级模块</strong>（与新建任务并列）</td></tr>
+          <tr><td>② IM 连接引导</td><td>顶部提示"请点击配置微信/企微等连接" — 连接完成 = 获得随时远程触发能力</td></tr>
+          <tr><td>③ 统一输入框</td><td>无论本地还是IM来源，收敛到同一个输入框与执行开关</td></tr>
+          <tr><td>④ 执行方式复用</td><td>Craft/Auto/Skills 三种模式在远程场景下完全复用</td></tr>
+          <tr><td>⑤ 环境切换</td><td>右下角 Claw 下拉 → 目标执行环境/通道选择</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin-bottom:8px">产品特点提炼</h4>
+        <div class="callout callout-green" style="margin:0">
+          <strong>🔥 高频触达 = 战略入口：</strong>远程连接被抽成<strong>一级模块</strong>，说明 IM 触达是 WorkBuddy 增长/活跃的核心战略<br><br>
+          <strong>🔄 同一套编排能力复用：</strong>远程与本地共用一套执行开关与工具链 → <strong>降低用户心智成本</strong>，无论从微信还是桌面发起，体验一致
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.3 专家中心 -->
+  <div class="card">
+    <h3 id="wb-arch-m3">👨‍💼 模块三：专家中心 — 把复杂能力"岗位化套餐"呈现</h3>
+    <div style="text-align:center;margin:16px 0">
+      <img src="image3.png" alt="WorkBuddy 专家中心截图" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.15)">
+      <div class="small-note" style="margin-top:6px">▲ 专家中心：按行业召唤专家 + 分类Tab + 专家卡片 + 排行榜 + 搜索</div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h4 style="margin-bottom:8px">核心功能</h4>
+        <table>
+          <tr><th>功能点</th><th>说明</th></tr>
+          <tr><td>① 按行业召唤专家</td><td>"按行业分发到最专业的专家，直接使用他们为你服务"</td></tr>
+          <tr><td>② 岗位/职能分类Tab</td><td>全部 / 设计(9) / 工程技术(26) / 市场营销(27) / 付费媒体(7) / 销售 / 产品(4) / 项目管理(5) / 质量测试(6)</td></tr>
+          <tr><td>③ 专家卡片</td><td>头像 + 角色名 + 能力说明 + 预期交付描述，降低"装技能/配工具"的理解门槛</td></tr>
+          <tr><td>④ 右侧排行榜</td><td>专家排行榜 — 强化供给与选择，辅助从众决策</td></tr>
+          <tr><td>⑤ 搜索能力</td><td>按职能/描述查找专家</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin-bottom:8px">产品特点提炼</h4>
+        <div class="callout callout-blue" style="margin:0">
+          <strong>🎭 专家 = 预设工作流：</strong>不是单纯人设/角色扮演，更像"<strong>模型+技能+提示词+流程</strong>"的一键组合 — 业务用户无需理解底层能力就能使用<br><br>
+          <strong>📊 运营化结构：</strong>分类Tab + 排行榜 + 搜索，明显为<strong>规模化分发与转化</strong>设计 — 可持续运营新增专家、调整排序、做转化优化<br><br>
+          <strong>📌 已上线专家规模：</strong>仅市场营销就有27个，工程技术26个 — 总量预计<strong>100+岗位化专家</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.4 技能中心 -->
+  <div class="card">
+    <h3 id="wb-arch-m4">🧩 模块四：技能中心 — 交付物能力（Office套件）+ 生态扩展（SkillHub/MCP）</h3>
+    <div style="text-align:center;margin:16px 0">
+      <img src="image4.png" alt="WorkBuddy 技能中心截图" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.15)">
+      <div class="small-note" style="margin-top:6px">▲ 技能中心：已安装交付物Skill + 浏览器自动化 + SkillHub推荐 + 腾讯系集成 + MCP服务器</div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h4 style="margin-bottom:8px">核心功能</h4>
+        <table>
+          <tr><th>功能点</th><th>说明</th></tr>
+          <tr><td>① 交付物Skill前置</td><td><strong>pptx / pdf / docx / xlsx</strong> 放最显眼区域 → 强调"直接产出可用成果"</td></tr>
+          <tr><td>② 浏览器自动化</td><td>agent-browser / playwright-cli 显著露出 → 调研/抓取/填表执行底座</td></tr>
+          <tr><td>③ SkillHub推荐区</td><td>推荐 / SkillHub / 条件 三个Tab → "官方精选 + 可扩展外部工具"双轨</td></tr>
+          <tr><td>④ 腾讯系Skill</td><td>腾讯文档 / 腾讯会议 / ima / 乐享 / COS / TAPD / 微信支付 等内生态打通</td></tr>
+          <tr><td>⑤ MCP服务器入口</td><td>右侧按钮直接连接 MCP 服务器 → 扩展第三方工具能力</td></tr>
+          <tr><td>⑥ 添加技能</td><td>支持自行添加/安装新Skill</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin-bottom:8px">产品特点提炼</h4>
+        <div class="callout callout-green" style="margin:0">
+          <strong>📄 以交付物为中心的技能编排：</strong>技能不是"功能列表"，而是围绕<strong>交付物（文档/PPT/表格/PDF）</strong>组织 — 用户思维是"我要什么成果"而非"我用什么工具"<br><br>
+          <strong>🔗 生态扩展强绑定工作台：</strong>SkillHub / MCP 被直接内嵌在核心路径里，不是"另一个网站" — <strong>减少跳转、降低使用门槛</strong><br><br>
+          <strong>🏢 腾讯系协同壁垒：</strong>腾讯文档/腾讯会议/ima/乐享/COS/TAPD/微信支付 等 <strong>10+ 腾讯系产品已Skill化</strong> → 形成独占生态优势
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.5 自动化 -->
+  <div class="card">
+    <h3 id="wb-arch-m5">⏰ 模块五：自动化 — 把一次性任务沉淀为"周期性数字同事"</h3>
+    <div style="text-align:center;margin:16px 0">
+      <img src="image5.png" alt="WorkBuddy 自动化截图" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.15)">
+      <div class="small-note" style="margin-top:6px">▲ 自动化模块：模板库入口 + 高频模板（每日新闻/周报/提醒等）+ 创建按钮 + 运行记录</div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h4 style="margin-bottom:8px">核心功能</h4>
+        <table>
+          <tr><th>功能点</th><th>说明</th></tr>
+          <tr><td>① 自动化一级入口</td><td>左侧导航独立模块 — 与新建任务/Claw/专家/技能并列</td></tr>
+          <tr><td>② 模板库</td><td>"从模板入手" → 每日AI新闻推送 / 每周工作周报 / 每日一个办什么 / 面试准备提醒 等</td></tr>
+          <tr><td>③ 高频模板示例</td><td>每日5个高通量词 / 经典电影推荐 / 父母联系提醒 / 会议前准备 / 可爱猫咪手机壁纸 / 伟悟蜥蜴提醒</td></tr>
+          <tr><td>④ 创建自动化</td><td>右上角"+ 添加"按钮 → 自定义触发器/频率/权限/输出位置</td></tr>
+          <tr><td>⑤ 运行记录</td><td>页面标题下"管理自动化任务并查看近期运行记录" → 可追踪可审计</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin-bottom:8px">产品特点提炼</h4>
+        <div class="callout callout-yellow" style="margin:0">
+          <strong>🔄 留存飞轮：</strong>自动化把"任务完成一次"变成<strong>"持续产出"</strong> → 是长期留存的关键产品化形态。用户一旦设置好自动化 → 每天/每周都回来看结果<br><br>
+          <strong>📦 模板驱动扩张：</strong>模板库既是 <strong>onboarding</strong>（让用户快速体验价值），也是<strong>增长/运营货架</strong>（可持续更新高频模板 → 拉新+留存）<br><br>
+          <strong>💡 "数字同事"定位：</strong>不是"工具"而是"同事" — 每天帮你推送新闻、写周报、提醒日程 → <strong>从"一次性使用"到"日常依赖"</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 三种模式 + V2 -->
+  <div class="card">
+    <h3>🎛️ WorkBuddy 三种核心执行模式</h3>
+    <div class="kpi-row">
+      <div class="kpi blue" style="text-align:left;padding:24px">
+        <div style="font-size:20px;font-weight:700;margin-bottom:8px">⚡ Craft 模式</div>
+        <div style="font-size:13px">直接执行，一句话下指令立即动手<br>文件整理类效率提升 <strong>90%+</strong><br><span class="dim">适合简单重复任务</span></div>
+      </div>
+      <div class="kpi green" style="text-align:left;padding:24px">
+        <div style="font-size:20px;font-weight:700;margin-bottom:8px">📋 Auto 模式</div>
+        <div style="font-size:13px">先列计划 → 用户确认 → 逐步执行<br>适合复杂/高风险任务<br><span class="dim">降低 AI 误操作风险</span></div>
+      </div>
+      <div class="kpi yellow" style="text-align:left;padding:24px">
+        <div style="font-size:20px;font-weight:700;margin-bottom:8px">🧩 Skills 模式</div>
+        <div style="font-size:13px">调用特定Skill执行专项任务<br>pptx/docx/xlsx/浏览器自动化等<br><span class="dim">精确匹配能力+交付物</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="wb-arch-iteration">⏱️ 产品迭代节奏（上线36天内 · 20+版本）</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>日期</th><th>版本</th><th>核心新功能</th><th>策略解读</th></tr>
+      <tr><td>3.04</td><td>4.5.0</td><td>正式发布：自然语言 + 多模型 + Skill + 文件读写 + 终端</td><td>MVP 全功能上线</td></tr>
+      <tr><td>3.06-3.17</td><td>4.5.2~4.5.14</td><td>稳定性修复 × 6版本（中文输入/IM Bot链路）</td><td><span class="chip chip-red">前2周只修Bug</span></td></tr>
+      <tr class="highlight"><td>3.19</td><td><strong>4.6.0</strong></td><td><strong>专家中心 + MCP + 插件市场 + 多渠道Bot + 自动化定时</strong></td><td>第一个大跳跃 → 从 chat 升级为"工作台"</td></tr>
+      <tr><td>3.20-3.22</td><td>4.6.1~4.6.4</td><td>SkillHub + 微信ClawBot + Working Memory</td><td>生态飞轮启动</td></tr>
+      <tr><td>3.25-3.28</td><td>4.7.0~4.7.3</td><td>自定义模型UI + 专家排行 + MCP OAuth + QQ邮箱</td><td>企业能力补齐</td></tr>
+      <tr class="highlight"><td>3.30</td><td><strong>4.7.5</strong></td><td><strong>Skill安全检测 + 小程序集成默认开启</strong></td><td>安全体系 + 小程序入口（第二节点）</td></tr>
+      <tr><td>3.31-4.10</td><td>4.8.0~4.9.3</td><td>AI内容标记 + IM审批 + Skills分类筛选</td><td>产品成熟化迭代</td></tr>
+    </table>
+    </div>
+    <div class="callout callout-blue">
+      <strong>📌 节奏规律：</strong>"先稳后快" —— 前2周不做大功能只修Bug → 第2-3周功能爆发 → 第4周后转入生态和成熟化。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="wb-arch-v2">🔒 V2 大版本核心更新（2026.04.09）</h3>
+    <div class="kpi-row">
+      <div class="kpi blue"><div class="value">多Agent</div><div class="label">每个Agent自定义专长/技能/权限</div></div>
+      <div class="kpi green"><div class="value">应用连接器</div><div class="label">跨应用直连（非Skill调用）</div></div>
+      <div class="kpi red"><div class="value">龙虾管家</div><div class="label">安全防护（操作日志+风控拦截）</div></div>
+      <div class="kpi purple"><div class="value">-60%</div><div class="label">操作步骤减少60%+</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 1.6 SkillHub -->
+<div class="section" id="wb-skill">
+  <div class="section-title"><span class="icon">🧩</span> 1.6 SkillHub 建设与丰富度</div>
+
+  <div class="card">
+    <h3 id="wb-skill-features">🏪 SkillHub 核心特点</h3>
+    <div class="two-col">
+      <div>
+        <table>
+          <tr><th>特点</th><th>说明</th></tr>
+          <tr><td>🚀 国内高速镜像</td><td>秒级安装，CDN全国覆盖；缺失时自动回退ClawHub</td></tr>
+          <tr><td>🏆 官方精选 TOP50</td><td>EdgeOne ClawScan安全扫描 + 人工审核 + 多维评估</td></tr>
+          <tr><td>🇨🇳 全中文本土化</td><td>名称/介绍/文档全中文 + 中文语义搜索</td></tr>
+          <tr><td>🛡️ 安全防护</td><td>自动检测投毒/漏洞/隐私泄露 + 企业白名单</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="margin-bottom:8px">建设时间线</h4>
+        <table>
+          <tr><th>日期</th><th>里程碑</th></tr>
+          <tr><td>3.10</td><td>SkillHub正式上线（同步ClawHub 1.3万+）</td></tr>
+          <tr><td>3.12</td><td>腾讯系10+产品Skill化</td></tr>
+          <tr><td>3.17</td><td>IMA Skills上线（首发笔记插件）</td></tr>
+          <tr><td>3.27</td><td>发布2026路线图：开源SkillHub + 全场景打通</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="wb-skill-compare">📊 各产品 Skill 生态数据对比</h3>
+    <table>
+      <tr><th>产品</th><th>宣传Skill数</th><th>实际展示数</th><th>精选推荐</th><th>官方预置</th><th>生态开放度</th></tr>
+      <tr><td>OpenClaw</td><td>未公布</td><td class="highlight"><strong>53,820</strong></td><td>5</td><td>0</td><td>最大开放生态</td></tr>
+      <tr class="highlight"><td><strong>WorkBuddy</strong></td><td><strong>2.2万</strong></td><td>大量</td><td><strong>95</strong></td><td>8</td><td>SkillHub本土化最强</td></tr>
+      <tr><td>MaxClaw</td><td>1.6万</td><td>大量</td><td>按用户数推荐</td><td>4</td><td>Expert Agent 模式</td></tr>
+      <tr><td>EasyClaw</td><td>1.3万</td><td>148</td><td>14</td><td>12-17</td><td>猎户星空特色Skill</td></tr>
+      <tr><td>QClaw</td><td>5,000+</td><td>40</td><td>无</td><td><strong>39</strong></td><td>预置Skill最多</td></tr>
+      <tr><td>灵犀Claw</td><td>12</td><td>12</td><td>无</td><td>11</td><td><span class="chip chip-red">完全封闭</span></td></tr>
+    </table>
+
+    <h4 style="margin-top:16px">宣传 vs 实际的"注水"差距</h4>
+    <div style="margin-top:8px">
+      <div class="progress-wrap">
+        <div class="progress-label"><span>EasyClaw（宣传1.3万 → 实际展示148）</span><span>1.1%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:1.1%;background:var(--red)"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>QClaw（宣传5000+ → 实际展示40）</span><span>0.8%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:0.8%;background:var(--red)"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>灵犀Claw（宣传12 → 实际12）</span><span>100%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%;background:var(--green)"></div></div>
+      </div>
+    </div>
+    <div class="callout callout-red">
+      <strong>⚠️ 关键发现：</strong>宣传Skill数 ≠ 实际可用数。EasyClaw宣传1.3万实际展示仅148（1.1%），QClaw宣传5000+实际展示仅40（0.8%）。<strong>WorkBuddy生态最均衡：量级大+精选多+有预置，用户体验最完整。</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="wb-skill-scenes">🔢 Skill 场景分类调研数据（来自各平台一手调研）</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>品牌</th><th>文档撰写</th><th>内容创作</th><th>数据分析</th><th>自动生成PPT</th><th>代码开发</th><th>社媒管理</th><th>设计辅助</th><th>资讯抓取</th><th>总计</th></tr>
+      <tr><td>AnyGen (MiniMax)</td><td>20</td><td>19</td><td>14</td><td>2</td><td>5</td><td>0</td><td>8</td><td>1</td><td>88</td></tr>
+      <tr><td>OpenClaw</td><td>9</td><td>3</td><td>5</td><td>2</td><td>4</td><td>3</td><td>3</td><td>9</td><td>86</td></tr>
+      <tr><td>ArkClaw</td><td>7</td><td>10</td><td>7</td><td>1</td><td>4</td><td>4</td><td>1</td><td>12</td><td>82</td></tr>
+      <tr><td>SkillHub(WorkBuddy/QClaw)</td><td>6</td><td>18</td><td>3</td><td>2</td><td>1</td><td>7</td><td>2</td><td>2</td><td>63</td></tr>
+      <tr class="highlight"><td><strong>灵犀Claw</strong></td><td>2</td><td>0</td><td>2</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td><strong>11</strong></td></tr>
+    </table>
+    </div>
+    <div class="callout callout-yellow">
+      <strong>📌 场景洞察：</strong>"自动生成PPT"这个高频办公场景，各平台Skill数量都极少（1-2个）。对 OfficeClaw 而言，PPT × 30万+模板是独家差异化空间。
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ==================== 维度二：横评对比 ========================= -->
+<!-- ============================================================ -->
+
+<div style="margin:48px 0 32px; text-align:center;">
+  <div style="display:inline-block; background:linear-gradient(135deg,#0d47a1,#1565c0); color:#fff; padding:18px 48px; border-radius:30px; font-size:24px; font-weight:700;">
+    📊 维度二：八大产品横评对比
+  </div>
+</div>
+
+<!-- 2.1 定位 -->
+<div class="section" id="cross-position">
+  <div class="section-title"><span class="icon">🎯</span> 2.1 定位 × 生态 × IM × 付费模式</div>
+
+  <div class="card">
+    <h3 id="cross-position-map">🗺️ 八大产品定位全景</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>产品</th><th>出品方</th><th>核心定位</th><th>IM覆盖</th><th>付费模式</th><th>生态决定</th></tr>
+      <tr class="highlight"><td><strong>WorkBuddy</strong></td><td>腾讯云</td><td>IM驱动的全场景AI Agent平台</td><td><strong>9大触达渠道</strong> <span class="chip chip-green">行业第一</span></td><td>Credits圈地 → 个人Pro+企业License</td><td>腾讯IM生态 = 企业级触达</td></tr>
+      <tr><td><strong>QClaw</strong></td><td>腾讯电脑管家</td><td>微信远程AI助手</td><td>1（仅微信）</td><td>4000万Token免费圈地</td><td>微信深度绑定 = 国民级入口</td></tr>
+      <tr><td><strong>EasyClaw</strong></td><td>猎豹移动</td><td>零配置桌面AI Agent</td><td>4</td><td><span class="chip chip-green">定价最成熟</span> 39/79/199/企业</td><td>OpenClaw 封装 + 傅盛IP</td></tr>
+      <tr><td><strong>MaxClaw</strong></td><td>MiniMax</td><td>Expert Agent 大模型突出</td><td>有限</td><td>待确认</td><td>自研大模型能力</td></tr>
+      <tr><td><strong>KimiClaw</strong></td><td>月之暗面</td><td>云端托管 OpenClaw</td><td>飞书Bot</td><td>¥199/月会员捆绑</td><td>Kimi模型 + 全包式体验</td></tr>
+      <tr><td><strong>灵犀Claw</strong></td><td>金山WPS</td><td>最懂办公的AI龙虾</td><td><strong>6渠道</strong>（微信/企微/钉钉/飞书/WPS协作/QQ Bot）</td><td>内测免费 → 预计WPS会员（25-35元/月）</td><td>WPS 6.47亿用户 = 办公基因最强</td></tr>
+      <tr><td><strong>ArkClaw</strong></td><td>字节跳动</td><td>企业协作深度整合</td><td>飞书+企微</td><td>预计跟飞书企业版</td><td>飞书原生bitable/doc/task</td></tr>
+      <tr><td><strong>OpenClaw</strong></td><td>社区开源</td><td>底座框架（万物之源）</td><td>—</td><td>免费开源</td><td>GitHub 35万+ Star 的生态基座</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="cross-position-layers">📐 产品分层矩阵</h3>
+    <table>
+      <tr><th>层级</th><th>产品</th><th>核心逻辑</th><th>护城河</th></tr>
+      <tr><td><span class="chip chip-purple">平台型</span></td><td>WorkBuddy、ArkClaw</td><td>IM + 生态 + 企业管控</td><td>⭐⭐⭐⭐ 生态网络效应</td></tr>
+      <tr><td><span class="chip chip-blue">工具型</span></td><td>灵犀Claw、EasyClaw</td><td>专精办公 / 极低门槛</td><td>⭐⭐⭐ 垂直深度 / 低但可复制</td></tr>
+      <tr><td><span class="chip chip-green">生态型</span></td><td>QClaw、MaxClaw</td><td>预置Skill / Expert Agent</td><td>⭐⭐⭐ 微信渠道 / 模型能力</td></tr>
+      <tr><td><span class="chip chip-gray">基座型</span></td><td>OpenClaw</td><td>开源标准，万物之源</td><td>⭐⭐⭐⭐⭐ 社区不可替代</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 2.2 B端 -->
+<div class="section" id="cross-data">
+  <div class="section-title"><span class="icon">🏢</span> 2.2 B端数据集成能力</div>
+
+  <div class="card">
+    <h3>🔌 各竞品 B端集成对比</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>竞品</th><th>B端集成方式</th><th>IM平台支持</th><th>企业管控</th><th>B端成熟度</th></tr>
+      <tr class="highlight"><td><strong>WorkBuddy</strong></td><td>企微WebSocket/API回调</td><td>微信/企微/QQ/飞书/钉钉 (5大)</td><td>AD域控/SSO/白名单/审计日志</td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td></tr>
+      <tr><td>ArkClaw</td><td>飞书/企微原生深度集成</td><td>飞书/企微（bitable/doc/task）</td><td>飞书管理后台统一管控</td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td></tr>
+      <tr><td>QClaw</td><td>预置企微/腾讯会议Skill</td><td>企微/腾讯会议</td><td>待确认</td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td></tr>
+      <tr><td>灵犀Claw</td><td>WPS生态内嵌，无独立B端方案</td><td>✅ 6渠道（微信/企微Bot/钉钉/飞书/WPS协作/QQ Bot）</td><td>WPS企业版权限</td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td></tr>
+      <tr><td>EasyClaw</td><td>无标准B端方案</td><td>微信桌面自动化（非标准）</td><td>待确认</td><td><span class="stars">★</span><span class="stars-dim">★★★★</span></td></tr>
+      <tr><td>MaxClaw</td><td>API接口为主</td><td>有限</td><td>待确认</td><td><span class="stars">★</span><span class="stars-dim">★★★★</span></td></tr>
+    </table>
+    </div>
+
+    <div class="callout callout-green">
+      <strong>🔑 B端关键发现：</strong><br>
+      ① WorkBuddy B端成熟度最高：9大触达渠道（覆盖5大IM平台）+ 标准化企微集成 + 企业管控体系<br>
+      ② ArkClaw B端潜力大：飞书原生集成深度强（直接操作bitable），但局限飞书/企微<br>
+      ③ <strong>灵犀Claw有6渠道IM但B端独立方案薄弱：依赖WPS企业版体系，无独立AI Agent B端企业管控方案</strong><br>
+      ④ 行业整体B端尚早期，多数付费模式未定
+    </div>
+    <div class="callout callout-blue">
+      <strong>💡 生态决定场景：</strong>不同IM生态 = 不同企业用户群 = 不同核心办公场景。<strong>企微</strong>解决客户管理+内部审批（WorkBuddy）；<strong>飞书</strong>解决项目协作+数据驱动（ArkClaw）；<strong>WPS</strong>解决纯文档办公（灵犀Claw）；<strong>Teams/Outlook</strong>解决企业协作+邮件+文档交付 — <strong>目前无任何Claw产品深度绑定微软生态。</strong>详见 <a href="#insight-tob" style="color:var(--blue)">3.2 To B 市场洞察</a>。
+    </div>
+  </div>
+</div>
+
+<!-- 2.3 To C 场景 -->
+<div class="section" id="cross-toc">
+  <div class="section-title"><span class="icon">👤</span> 2.3 To C 场景运营 × 刚需度</div>
+
+  <div class="card">
+    <h3 id="cross-toc-scenes">🎯 八大产品的核心场景覆盖</h3>
+
+    <div class="callout callout-blue" style="margin-bottom:16px">
+      <strong>📐 判断规则说明：</strong><br>
+      <table style="margin-top:8px;font-size:12.5px">
+        <tr><th style="width:10%;padding:6px 10px">符号</th><th style="width:15%;padding:6px 10px">含义</th><th style="padding:6px 10px">判断标准</th></tr>
+        <tr><td style="padding:6px 10px"><strong>✅✅</strong></td><td style="padding:6px 10px">强能力</td><td style="padding:6px 10px">有<strong>原生/深度Skill</strong> + 实测验证表现好（如灵犀Claw的WPS原生docx/xlsx/pptx Skill，ArkClaw的飞书bitable/doc原生集成）</td></tr>
+        <tr><td style="padding:6px 10px"><strong>✅</strong></td><td style="padding:6px 10px">有能力</td><td style="padding:6px 10px">有对应Skill或功能，可完成基础任务，但<strong>深度一般或未充分实测验证</strong>（如通过OpenClaw通用Skill实现）</td></tr>
+        <tr><td style="padding:6px 10px"><strong>⚠️</strong></td><td style="padding:6px 10px">弱/不稳定</td><td style="padding:6px 10px">有尝试但<strong>实测失败率高 / 功能不完善</strong>（如邮件发送多数产品失败；QClaw的PPT生成32min+服务异常）</td></tr>
+        <tr><td style="padding:6px 10px"><strong>❌</strong></td><td style="padding:6px 10px">明确失败</td><td style="padding:6px 10px">实测<strong>明确失败</strong>（如MaxClaw邮件发送功能不存在）</td></tr>
+        <tr><td style="padding:6px 10px"><strong>—</strong></td><td style="padding:6px 10px">无/未涉及</td><td style="padding:6px 10px"><strong>未提供该能力</strong>或无调研数据可参考</td></tr>
+      </table>
+      <div style="margin-top:8px;font-size:12px;color:var(--gray)">
+        数据来源：① Claw Testing Cases 标准化评测（实测数据）；② 各Claw Skill调研汇总（Skill商店一手调研）；③ 各产品官网/文档公开信息；④ 用户社区评测反馈（知乎/掘金/什么值得买等）
+      </div>
+    </div>
+
+    <div class="table-wrap">
+    <table>
+      <tr>
+        <th>刚需场景</th>
+        <th>WorkBuddy</th><th>QClaw</th><th>EasyClaw</th><th>MaxClaw</th>
+        <th>KimiClaw</th><th>灵犀Claw</th><th>ArkClaw</th><th>OpenClaw</th>
+      </tr>
+      <tr>
+        <td><strong>自动生成PPT</strong></td>
+        <td>✅</td><td>⚠️</td><td>✅</td><td>✅</td>
+        <td>✅</td><td class="highlight">✅✅</td><td>✅</td><td>✅</td>
+      </tr>
+      <tr>
+        <td><strong>文档撰写/报告</strong></td>
+        <td>✅</td><td>✅</td><td>✅</td><td>✅</td>
+        <td>✅</td><td class="highlight">✅✅</td><td>✅</td><td>✅</td>
+      </tr>
+      <tr>
+        <td><strong>数据分析/Excel</strong></td>
+        <td>✅</td><td>✅</td><td>✅</td><td>✅</td>
+        <td>✅</td><td class="highlight">✅✅</td><td>✅✅</td><td>✅</td>
+      </tr>
+      <tr>
+        <td><strong>远程IM操控</strong></td>
+        <td class="highlight">✅✅✅</td><td>✅✅</td><td>✅</td><td>⚠️</td>
+        <td>⚠️</td><td>✅✅</td><td>✅✅</td><td>—</td>
+      </tr>
+      <tr>
+        <td><strong>邮件发送</strong></td>
+        <td>⚠️</td><td>⚠️</td><td>⚠️</td><td>❌</td>
+        <td>⚠️</td><td>⚠️</td><td>✅</td><td>⚠️</td>
+      </tr>
+      <tr>
+        <td><strong>社媒管理</strong></td>
+        <td>✅</td><td>—</td><td>✅</td><td>—</td>
+        <td>—</td><td>—</td><td>—</td><td>✅</td>
+      </tr>
+      <tr>
+        <td><strong>设计辅助</strong></td>
+        <td>✅</td><td>—</td><td>✅</td><td>✅✅</td>
+        <td>—</td><td>—</td><td>—</td><td>✅</td>
+      </tr>
+      <tr>
+        <td><strong>定时自动化</strong></td>
+        <td>✅</td><td>✅</td><td>✅</td><td>—</td>
+        <td>—</td><td>✅</td><td>—</td><td>✅</td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="callout callout-yellow">
+      <strong>📌 刚需场景判断：</strong><br>
+      ① <strong>PPT + 文档 + 数据分析 = 办公三大刚需</strong>，灵犀Claw凭WPS原生Skill在此最强<br>
+      ② <strong>远程IM操控</strong>：WorkBuddy 9大触达渠道行业第一，灵犀Claw 6渠道紧随其后（Day 1 即上线），QClaw 仅微信1渠道<br>
+      ③ <strong>邮件 = 行业普遍短板</strong> —— 各竞品几乎全军覆没
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="cross-toc-feedback">💬 用户口碑核心关键词</h3>
+    <table>
+      <tr><th>产品</th><th>核心好评</th><th>核心吐槽</th></tr>
+      <tr><td><strong>WorkBuddy</strong></td><td>"真能干活" · 三模式设计好 · 远程操控实用 · "到公司PPT已做好"</td><td>初期不成熟 · Skill安全 · 首日崩溃</td></tr>
+      <tr><td><strong>灵犀Claw</strong></td><td>"办公基因强" · WPS Skill原生 · MiMo模型好 · 开箱即用</td><td>内测需邀请码 · 生态封闭 · 评测少</td></tr>
+      <tr><td><strong>EasyClaw</strong></td><td>零配置 · 中文理解好 · "3分钟启动"</td><td class="highlight"><strong>"积分消耗真让人说不出话"</strong> · 免费版不够</td></tr>
+      <tr><td><strong>QClaw</strong></td><td>门槛极低 · 微信入口好 · 4000万Token白嫖</td><td>功能不成熟 · 自定义弱 · 安全隐患</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- 2.4 Skill 横评 -->
+<div class="section" id="cross-skill">
+  <div class="section-title"><span class="icon">🧩</span> 2.4 Skill 生态横评数据</div>
+
+  <div class="card">
+    <h3>📊 综合能力雷达（基于评测数据打分）</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th>能力维度</th><th>WorkBuddy</th><th>灵犀Claw</th><th>EasyClaw</th><th>QClaw</th><th>ArkClaw</th><th>MaxClaw</th></tr>
+      <tr><td>文档处理</td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td><td><span class="stars">★★★★★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td></tr>
+      <tr><td>Skill 生态</td><td><span class="stars">★★★★★</span></td><td><span class="stars">★</span><span class="stars-dim">★★★★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td></tr>
+      <tr><td>IM 集成</td><td><span class="stars">★★★★★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td></tr>
+      <tr><td>企业级能力</td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td></tr>
+      <tr><td>本土化</td><td><span class="stars">★★★★★</span></td><td><span class="stars">★★★★★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td></tr>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ==================== Part 三：Insights 洞察 ==================== -->
+<!-- ============================================================ -->
+
+<div style="margin:48px 0 32px; text-align:center;">
+  <div style="display:inline-block; background:linear-gradient(135deg,#1a237e,#7b1fa2); color:#fff; padding:18px 48px; border-radius:30px; font-size:24px; font-weight:700;">
+    💡 Part 三：Insights 洞察
+  </div>
+</div>
+
+<!-- 3.1 To C Insights -->
+<div class="section" id="insight-toc">
+  <div class="section-title"><span class="icon">👤</span> 3.1 To C 市场洞察</div>
+
+  <div class="card">
+    <h3 id="insight-toc-findings">📊 To C 竞争格局核心发现</h3>
+    <table>
+      <tr><th>#</th><th>洞察</th><th>证据</th><th>启示</th></tr>
+      <tr><td>1</td><td><strong>赛道正确但全员早期</strong></td><td>AI+办公市场2024年达308.64亿元（+135%）；但WorkBuddy公测仅1月、灵犀Claw仍内测、QClaw刚公测</td><td>窗口期存在 — 没有谁已建立绝对优势</td></tr>
+      <tr class="highlight"><td>2</td><td><strong>"免费"是入场券，不是壁垒</strong></td><td>所有竞品都提供免费层 — 5000 Credits / 4000万Token/天 / 内测免费 / 200积分/天</td><td>竞争不在免费层，而在<strong>付费转化的价值感</strong> — "省时间=省钱"的叙事</td></tr>
+      <tr><td>3</td><td><strong>PPT+文档+数据分析 = 三大刚需</strong></td><td>OfficePLUS下载量Top：工作汇报(40%) > 教培(15%) > 周报月报(15%)；Skill调研中"自动生成PPT"使用量最高(1895次)</td><td>办公三大件是所有C端用户的共同痛点</td></tr>
+      <tr><td>4</td><td><strong>积分/Token消耗是C端核心吐槽</strong></td><td>EasyClaw用户："功能强大但积分消耗真让人说不出话"；免费版200积分/天远远不够</td><td>定价需平衡 — 免费层够用让人留下，付费层有明确差异化价值</td></tr>
+      <tr><td>5</td><td><strong>AI PPT赛道已跑出超级案例</strong></td><td>Gamma：7000万用户 / 60万付费 / ARR 1亿美元 / 估值21亿美元 / 仅52人</td><td>聚焦"成品交付"比"通用Agent"更容易变现 — Gamma模式可复制</td></tr>
+      <tr class="highlight"><td>6</td><td><strong>模板同质化 = AiPPT赛道最大痛点</strong></td><td>智能PPT NPS仅30.6（36氪数据）；用户核心吐槽：模板千篇一律、AI生成内容混乱</td><td><strong>30万+专业设计模板是独家差异化资产</strong> — 这是所有Claw和AiPPT都没有的</td></tr>
+      <tr><td>7</td><td><strong>IM触达决定C端活跃度</strong></td><td>WorkBuddy 9大触达渠道行业第一 → "在地铁发消息让龙虾准备PPT，到公司就做好了"；灵犀Claw Day1即6渠道</td><td>IM不是可选项，是C端产品的生命线 — 用户在哪就要在哪触达</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 id="insight-toc-demand">🔥 To C 场景运营 — 刚需 vs 伪需求</h3>
+    <div class="two-col">
+      <div>
+        <h4 style="color:var(--green)">✅ 真刚需（高频 + 高付费意愿）</h4>
+        <table>
+          <tr><th>场景</th><th>频率</th><th>痛点强度</th></tr>
+          <tr><td><strong>季度/年终汇报PPT</strong></td><td>每季度</td><td>⭐⭐⭐⭐⭐ 关乎晋升</td></tr>
+          <tr><td><strong>周报/月报</strong></td><td>每周</td><td>⭐⭐⭐⭐ 高频重复劳动</td></tr>
+          <tr><td><strong>数据分析报告</strong></td><td>每月</td><td>⭐⭐⭐⭐ Excel→可视化痛苦</td></tr>
+          <tr><td><strong>项目方案/商业计划书</strong></td><td>不定期</td><td>⭐⭐⭐⭐⭐ 关乎商业成败</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4 style="color:var(--red)">⚠️ 需谨慎的场景</h4>
+        <table>
+          <tr><th>场景</th><th>风险</th></tr>
+          <tr><td>学生论文/作业</td><td>教育部2025年已将AI代写纳入学术不端 → 政策风险高</td></tr>
+          <tr><td>通用AI聊天</td><td>与ChatGPT/Kimi/DeepSeek正面竞争 → 无差异化</td></tr>
+          <tr><td>纯RPA自动化</td><td>EasyClaw已占位 → 非核心战场</td></tr>
+        </table>
+        <div class="callout callout-red" style="margin-top:12px">
+          <strong>⚠️ 学生可做辅助人群</strong>，但不能作为主打定位 — 聚焦<strong>"排版美化/模板设计"</strong>（视觉设计），规避"代写"标签
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3.2 To B Insights -->
+<div class="section" id="insight-tob">
+  <div class="section-title"><span class="icon">🏢</span> 3.2 To B 市场洞察</div>
+
+  <div class="card">
+    <h3 id="insight-tob-findings">📊 To B 竞争格局核心发现</h3>
+    <table>
+      <tr><th>#</th><th>洞察</th><th>证据</th><th>启示</th></tr>
+      <tr class="highlight"><td>1</td><td><strong>WorkBuddy B端最成熟，但仍在公测</strong></td><td>9大触达渠道（覆盖5大IM）+ 企微WebSocket深度集成 + AD域控/SSO + Skills白名单 + 审计日志 → 行业最完整B端方案</td><td>WorkBuddy定义了B端AI Agent的标准 — 后来者需至少对齐其企业管控能力</td></tr>
+      <tr><td>2</td><td><strong>IM平台 = B端获客的核心通道</strong></td><td>WorkBuddy企微集成架构：WebSocket长连接 + 多部门Agent配置 + Skills白名单管控</td><td>企业客户"不换IM即可用AI" = 最低摩擦的B端获客路径</td></tr>
+      <tr><td>3</td><td><strong>灵犀Claw有IM但缺B端独立方案</strong></td><td>6渠道IM（微信/企微/钉钉/飞书/WPS/QQ）但无独立企业管控 → 依赖WPS企业版体系</td><td>有IM ≠ 有B端能力 — 企业需要的是权限分级+审计+私有化</td></tr>
+      <tr class="highlight"><td>4</td><td><strong>付费模式全行业未定型</strong></td><td>WorkBuddy积分圈地 / QClaw免费4000万Token / EasyClaw最成熟但仍在调整 / 灵犀内测免费</td><td><strong>B端定价窗口完全开放</strong> — 谁先定义合理的企业定价就能占位</td></tr>
+      <tr><td>5</td><td><strong>数据安全 = B端决策的第一要素</strong></td><td>WorkBuddy强调：操作日志+风控拦截+DLP集成+私有化部署可选；龙虾管家安全防护</td><td>企业不在乎Agent多聪明，先在乎<strong>"数据会不会泄露"</strong></td></tr>
+      <tr><td>6</td><td><strong>ArkClaw是飞书生态的强竞品</strong></td><td>飞书/企微原生深度集成（直接操作bitable/calendar/doc/task）</td><td>在飞书重度用户中有强竞争力 → 但局限于两个IM平台</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 id="insight-tob-integration">🔗 To B 集成模式 — 行业趋势</h3>
+    <div class="two-col">
+      <div>
+        <h4>已验证的B端集成路径</h4>
+        <table>
+          <tr><th>路径</th><th>代表</th><th>优劣</th></tr>
+          <tr><td><strong>IM优先</strong></td><td>WorkBuddy（企微）<br>ArkClaw（飞书）</td><td>✅ 最低摩擦获客<br>⚠️ 受限于IM平台</td></tr>
+          <tr><td><strong>办公套件内嵌</strong></td><td>灵犀Claw（WPS）</td><td>✅ 使用场景天然<br>⚠️ 封闭生态</td></tr>
+          <tr><td><strong>独立客户端</strong></td><td>EasyClaw</td><td>✅ 自由度高<br>⚠️ 需单独安装推广</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4>企业级能力清单（WorkBuddy定义的标准）</h4>
+        <table>
+          <tr><th>能力</th><th>WorkBuddy</th><th>行业普遍</th></tr>
+          <tr><td>SSO/AD域控</td><td>✅</td><td>❌ 大多没有</td></tr>
+          <tr><td>Skills白名单</td><td>✅</td><td>❌</td></tr>
+          <tr><td>操作审计日志</td><td>✅</td><td>❌</td></tr>
+          <tr><td>DLP集成</td><td>✅</td><td>❌</td></tr>
+          <tr><td>私有化部署</td><td>可选</td><td>❌</td></tr>
+          <tr><td>多部门Agent隔离</td><td>✅</td><td>❌</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="insight-tob-ecosystem">🌐 核心洞察：IM 生态决定 B端办公场景 — "在谁的地盘，就解决谁的问题"</h3>
+    <div class="callout callout-yellow">
+      <strong>🔑 关键判断：</strong>B端 Claw 产品的竞争不是"谁功能多"，而是<strong>"谁深度嵌入了哪个办公生态"</strong>。不同 IM 平台背后是不同的企业用户群、不同的办公习惯、不同的核心场景。<strong>生态决定定位，定位决定场景。</strong>
+    </div>
+
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:12%">IM 生态</th><th style="width:14%">背后企业</th><th style="width:16%">核心 Claw 产品</th><th style="width:18%">典型企业用户画像</th><th>解决的核心办公场景</th></tr>
+      <tr class="highlight">
+        <td><strong>企业微信</strong></td>
+        <td>腾讯</td>
+        <td><strong>WorkBuddy</strong> + QClaw</td>
+        <td>传统企业、零售、制造、政务 — 微信/企微重度用户，组织架构复杂</td>
+        <td>• 客户管理（企微+CRM联动）<br>• 内部审批流（企微OA）<br>• 多部门Agent隔离（销售/HR/财务各自Agent）<br>• 微信远程操控（"地铁上发消息让龙虾准备PPT"）</td>
+      </tr>
+      <tr class="highlight">
+        <td><strong>飞书</strong></td>
+        <td>字节跳动</td>
+        <td><strong>ArkClaw</strong></td>
+        <td>互联网/科技公司、创业团队 — 飞书重度用户，强调项目协作与数据驱动</td>
+        <td>• 多维表格(bitable)自动化分析<br>• 飞书文档(doc)智能生成<br>• 日历(calendar)智能排程<br>• 任务(task)自动拆解与跟踪<br>• OKR/项目管理联动</td>
+      </tr>
+      <tr>
+        <td><strong>钉钉</strong></td>
+        <td>阿里巴巴</td>
+        <td>WorkBuddy（已接入）<br>+ 钉钉自有AI</td>
+        <td>中小企业、教育机构、政企 — 钉钉打卡/审批/会议重度用户</td>
+        <td>• 考勤/打卡数据分析<br>• 审批流自动化<br>• 钉钉会议纪要→行动项<br>• 智能排班与人事管理<br>• 教育场景（家校互动）</td>
+      </tr>
+      <tr>
+        <td><strong>WPS 办公</strong></td>
+        <td>金山办公</td>
+        <td><strong>灵犀Claw</strong></td>
+        <td>WPS 6.47亿用户 — 办公文档重度用户，包括体制内/教育/个人</td>
+        <td>• 文档/表格/PPT原生生成编辑<br>• WPS云文档协作<br>• 多文件合并分析<br>• 办公模板智能填充<br>• <em>但：无CRM/OA/审批等企业流程能力</em></td>
+      </tr>
+      <tr>
+        <td><strong>微信（个人）</strong></td>
+        <td>腾讯</td>
+        <td>QClaw（深度绑定）<br>WorkBuddy（ClawBot）</td>
+        <td>个人用户、自由职业者、小微企业 — 不用企业IM，微信就是办公工具</td>
+        <td>• 微信聊天记录整理<br>• 个人文件管理/整理<br>• 轻量级任务（翻译/总结/查询）<br>• "微信一句话，电脑就干活"</td>
+      </tr>
+      <tr class="highlight">
+        <td><strong>Teams + Outlook</strong></td>
+        <td>微软</td>
+        <td><strong>OfficeClaw（规划中）</strong></td>
+        <td>外企、跨国公司、Microsoft 365企业客户 — Teams/Outlook/SharePoint重度用户</td>
+        <td>• Outlook邮件自动化（独家壁垒）<br>• Teams会议纪要→行动项<br>• SharePoint/OneDrive文档协作<br>• Graph API企业数据打通<br>• Office原生文档交付（PPT/Word/Excel）</td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="callout callout-green">
+      <strong>💡 生态场景洞察总结：</strong><br>
+      ① <strong>企微 = 客户管理+内部流程</strong>（WorkBuddy的主战场）— 适合传统企业/零售/政务<br>
+      ② <strong>飞书 = 项目协作+数据驱动</strong>（ArkClaw的主战场）— 适合互联网/科技/创业<br>
+      ③ <strong>钉钉 = 考勤审批+中小企业管理</strong> — WorkBuddy已接入但无深度绑定的Claw产品<br>
+      ④ <strong>WPS = 纯文档办公</strong>（灵犀Claw的主战场）— 办公能力最强但缺企业流程<br>
+      ⑤ <strong>Teams/Outlook = 企业协作+邮件+文档</strong>（OfficeClaw的空白市场）— <strong>目前无任何Claw产品深度绑定微软办公生态</strong><br><br>
+      <strong>核心结论：每个IM生态都在孵化自己的AI Agent，但解决的场景完全不同。"在谁的生态里，就深度解决谁的问题" — 这是B端竞争的第一性原理。</strong>
+    </div>
+  </div>
+</div>
+
+<!-- 3.3 OfficeClaw 机会 -->
+<div class="section" id="insight-opportunity">
+  <div class="section-title"><span class="icon">🎯</span> 3.3 OfficeClaw 机会</div>
+
+  <div class="card">
+    <h3 id="insight-opp-position">🎯 定位差异化 — 不做"又一个龙虾"</h3>
+    <div class="vs-block">
+      <div class="vs-item" style="background:var(--red-bg)">
+        <div style="font-size:32px">🦞</div>
+        <div style="font-weight:700;margin:8px 0">通用 Claw</div>
+        <div style="font-size:13px;color:var(--gray)">"我什么都能干"<br>→ 同质化严重</div>
+      </div>
+      <div class="vs-divider">VS</div>
+      <div class="vs-item" style="background:var(--blue-light)">
+        <div style="font-size:32px">📊</div>
+        <div style="font-weight:700;margin:8px 0">OfficeClaw</div>
+        <div style="font-size:13px;color:var(--gray)">"说一句话，出专业成品"<br>→ AI × 30万模板 = 成品交付机</div>
+      </div>
+    </div>
+
+    <table>
+      <tr><th>对比维度</th><th>Claw 产品（Agent路线）</th><th>AiPPT（模板路线）</th><th>OfficeClaw（融合路线）</th></tr>
+      <tr><td>核心逻辑</td><td>帮你干活的助手</td><td>模板 + AI 填字</td><td><strong>AI 理解场景 × 30万+模板智能匹配 × 成品</strong></td></tr>
+      <tr><td>PPT 质量</td><td>排版3-4分，图表不可编辑</td><td>模板千篇一律 (NPS 30.6)</td><td><strong>专业模板+原生图表+微软品牌</strong></td></tr>
+      <tr><td>邮件能力</td><td>⚠️ 全行业短板</td><td>不涉及</td><td><strong>Outlook 原生集成 = 核心壁垒</strong></td></tr>
+      <tr><td>渠道</td><td>独立客户端需主动打开</td><td>Web 端</td><td><strong>Office Ribbon 面板 + Teams Bot（嵌入式触达）</strong></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 id="insight-opp-gaps">🛡️ 五大行业共性短板 → OfficeClaw 机会</h3>
+    <table>
+      <tr><th>#</th><th>行业短板</th><th>证据</th><th>OfficeClaw 解法</th></tr>
+      <tr><td>1</td><td><strong>PPT 质量差</strong></td><td>排版3-4分，图表拼接不可编辑</td><td>Office COM API 生成原生图表 + 30万+设计模板</td></tr>
+      <tr><td>2</td><td><strong>AI 幻觉</strong></td><td>MiniMax编造内容，多Claw数据不一致</td><td>RAG + 源文件引用链，标注出处</td></tr>
+      <tr><td>3</td><td><strong>稳定性差</strong></td><td>中文文件名bug、超时中断、服务崩溃</td><td>本地 Office 原生 API，不依赖 Web 渲染</td></tr>
+      <tr><td>4</td><td class="highlight"><strong>邮件全军覆没</strong></td><td>WorkBuddy/MiniMax全失败，灵犀成功1次</td><td><strong>Outlook 原生集成 = 独家壁垒</strong></td></tr>
+      <tr><td>5</td><td><strong>Excel 无真公式</strong></td><td>硬编码数字，不联动不可改</td><td>Office Excel API 写入真公式</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3 id="insight-opp-priority">📋 优先级建议 & 对标参考</h3>
+    <div class="two-col">
+      <div>
+        <h4>一期 P0 必做</h4>
+        <table>
+          <tr><th>能力</th><th>原因</th></tr>
+          <tr><td>Word 生成稳定</td><td>竞品验证最易实现</td></tr>
+          <tr><td>Excel + 真公式</td><td>竞品无公式 → 差异明显</td></tr>
+          <tr><td>Outlook 邮件</td><td>竞品全军覆没 → 独家</td></tr>
+          <tr><td>PPT + 专业模板</td><td>行业最大痛点</td></tr>
+          <tr><td>Teams Bot + 企微</td><td>IM 触达核心</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4>对标 Gamma 的增长密码</h4>
+        <table>
+          <tr><th>Gamma 做法</th><th>对标数据</th></tr>
+          <tr><td>免费版带品牌水印自传播</td><td>80%用户来自推荐/分享</td></tr>
+          <tr><td>10秒内看到成品（Aha极快）</td><td>7000万注册用户</td></tr>
+          <tr><td>KOL实测 + 社交传播</td><td>60万+付费用户</td></tr>
+          <tr><td>仅52人团队</td><td>ARR 1亿美元 · 估值21亿美元</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="insight-opp-wb">🦞 对标 WorkBuddy 的增长密码</h3>
+    <div class="table-wrap">
+    <table>
+      <tr><th style="width:8%">#</th><th style="width:30%">WorkBuddy 做法</th><th style="width:35%">效果 / 数据</th><th>策略解读</th></tr>
+      <tr><td>1</td><td><strong>线下事件引爆线上</strong><br>"免费摆摊装龙虾"（正式上线前2天）</td><td>千人排队 · OpenClaw之父关注转发 · X平台病毒传播 · 国际化出圈</td><td>低成本制造社交素材 → 线下真实体验的传播力远大于线上广告</td></tr>
+      <tr><td>2</td><td><strong>2.8亿流量集中爆发</strong><br>36氪首发 + 腾讯系全渠道投放</td><td>首日用户涌入远超预期 → 紧急扩容算力<strong>10倍</strong></td><td>大厂打法：集中资源在D-Day引爆，而非细水长流 → 制造"现象级"认知</td></tr>
+      <tr class="highlight"><td>3</td><td><strong>IM入口 = 战略增长引擎</strong><br>Day 15 一次性打通5大IM → 最终9大触达渠道</td><td>用户无需安装App，在微信/企微/QQ/飞书/钉钉直接使用 → <strong>触达面覆盖中国所有主流办公IM</strong></td><td>🔑 核心增长杠杆 — 把AI Agent嵌入用户已有的高频场景，而非要求用户学习新工具</td></tr>
+      <tr><td>4</td><td><strong>Credits补贴冷启动</strong><br>下载即送5000 Credits ≈ 1.59亿Tokens</td><td>用户零成本体验完整功能 → 降低首次使用门槛至几乎为零</td><td>典型的"先让你用上瘾再收费"策略，对标互联网产品免费增长模型</td></tr>
+      <tr><td>5</td><td><strong>危机公关反转</strong><br>首日崩溃 → 迅速致歉 + 补偿1000 Credits</td><td>"翻车-道歉-补偿"本身成为传播话题 → 反获好感 → 业内称"最真诚道歉"</td><td>预案的价值 — 不是避免出问题，而是出了问题能把负面转为正面</td></tr>
+      <tr class="highlight"><td>6</td><td><strong>快速迭代 = 持续曝光</strong><br>1.7天/版本 · 36天发布20+版本</td><td>每次更新配合宣发动作 → 话题持续不断档 → KOL有素材可持续产出内容</td><td>🔑 "先稳后快"节奏 — 前2周只修Bug → 第2-3周功能爆发 → 第4周后生态成熟化</td></tr>
+      <tr><td>7</td><td><strong>裂变增长飞轮</strong><br>合伙养虾计划（邀请→注册→使用→奖励）</td><td>知乎/掘金/CSDN 大量UGC实战教程自发产出 → 零成本长尾获客</td><td>"养龙虾"拟人化话题 → 降低认知门槛 → 用户主动分享 → 社交裂变</td></tr>
+      <tr><td>8</td><td><strong>高管+品牌站台</strong><br>腾讯云峰会副总裁发布 + 张军微博官宣小程序</td><td>企业级市场信号释放 → B端客户认知建立 → 腾讯品牌背书</td><td>To B 获客需要"信任信号" — 高管站台+行业大会是建立企业信任的关键</td></tr>
+      <tr><td>9</td><td><strong>专家中心 = 能力货架化</strong><br>100+岗位化专家卡片 + 排行榜 + 分类Tab</td><td>业务用户无需理解底层AI能力 → 按岗位直接选"专家"使用 → 降低使用门槛</td><td>把复杂能力包装成"人" → 用户心智从"配置工具"变为"找对人" → 运营化分发</td></tr>
+      <tr><td>10</td><td><strong>自动化 = 留存飞轮</strong><br>模板库（周报/新闻/提醒）→ 一次设置持续产出</td><td>从"一次性使用"到"日常依赖" → 用户设置后每天/周回来看结果</td><td>🔑 留存的核心产品化形态 — 把Agent从"被动响应"变为"主动服务的数字同事"</td></tr>
+    </table>
+    </div>
+    <div class="callout callout-blue">
+      <strong>💡 WorkBuddy 增长密码总结：</strong><br>
+      WorkBuddy 的增长 = <strong>"腾讯生态杠杆 × 三段式节奏 × 产品化留存"</strong>：<br>
+      ① <strong>生态杠杆</strong>：2.8亿流量 + 9大触达渠道（覆盖5大IM）+ 腾讯系10+产品Skill化 + 品牌站台 → 大厂资源碾压式获客<br>
+      ② <strong>三段式节奏</strong>：慢热蓄水（内测1月）→ 快推引爆（D-Day集中爆发）→ 持续跟进（1.7天/版迭代） → 教科书级大厂推新打法<br>
+      ③ <strong>产品化留存</strong>：专家中心（能力货架化）+ 自动化（周期性数字同事）→ 从"用一次"到"每天用" → 长期粘性
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center; padding:40px 0 20px; color:var(--gray); font-size:12px;">
+  <p>Ruoqing & Ruiling · 2026-04-16 · 数据截至 2026.04.13</p>
+  <p>数据来源：Claw Testing Cases / 各Claw Skill调研汇总 / WorkBuddy B端生态调研 / OfficeClaw产品规划报告 / 各产品官网及公开信息</p>
+</div>
+
+</div>
+</body>
+</html>
