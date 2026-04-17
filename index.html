@@ -193,6 +193,11 @@
     <a href="#cross-toc-feedback">用户口碑</a>
   </details>
   <a href="#cross-skill">2.4 Skill 生态数据</a>
+  <details>
+    <summary><a href="#cross-security" style="display:inline;padding:0;border:0">2.5 安全审查对比</a></summary>
+    <a href="#cross-security-table">安全能力全景</a>
+    <a href="#cross-security-findings">关键发现</a>
+  </details>
   <div class="nav-divider"></div>
   <div class="nav-title">💡 三、Insights 洞察</div>
   <details>
@@ -247,6 +252,7 @@
       <br><a href="#cross-data">2.2 B端数据集成能力</a>
       <br><a href="#cross-toc">2.3 To C 场景运营 × 刚需度</a>
       <br><a href="#cross-skill">2.4 Skill 生态数据对比</a>
+      <br><a href="#cross-security">2.5 安全审查对比</a>
     </div>
     <div>
       <strong>三、Insights 洞察</strong>
@@ -1141,6 +1147,135 @@
       <tr><td>企业级能力</td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★</span><span class="stars-dim">★★★</span></td></tr>
       <tr><td>本土化</td><td><span class="stars">★★★★★</span></td><td><span class="stars">★★★★★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★★★</span><span class="stars-dim">★</span></td><td><span class="stars">★★★</span><span class="stars-dim">★★</span></td></tr>
     </table>
+    </div>
+  </div>
+</div>
+
+<!-- 2.5 安全审查对比 -->
+<div class="section" id="cross-security">
+  <div class="section-title"><span class="icon">🔒</span> 2.5 安全审查对比</div>
+
+  <div class="card">
+    <h3 id="cross-security-table">🛡️ 八大产品安全能力全景</h3>
+    <div class="table-wrap">
+    <table>
+      <tr>
+        <th>产品</th>
+        <th>数据存储</th>
+        <th>权限管控</th>
+        <th>模型调用链路</th>
+        <th>企业合规认证</th>
+        <th>审计日志</th>
+        <th>开源透明度</th>
+        <th>安全成熟度</th>
+      </tr>
+      <tr class="highlight">
+        <td><strong>WorkBuddy</strong></td>
+        <td>腾讯云（国内）<br><span class="dim">数据不出境</span></td>
+        <td>AD域控/SSO/白名单<br><span class="chip chip-green">企业级</span></td>
+        <td>混元大模型为主<br><span class="dim">数据留在腾讯生态内</span></td>
+        <td>依托腾讯云合规体系<br><span class="dim">等保三级 / ISO27001</span></td>
+        <td>✅ 企业审计日志<br><span class="dim">管理员可追溯操作</span></td>
+        <td>❌ 闭源</td>
+        <td><span class="stars">★★★★</span><span class="stars-dim">★</span></td>
+      </tr>
+      <tr>
+        <td><strong>QClaw</strong></td>
+        <td>腾讯云（国内）<br><span class="dim">微信本地+云端混合</span></td>
+        <td>微信授权范围<br><span class="dim">消息读取需用户确认</span></td>
+        <td>混元/第三方模型混合<br><span class="dim">部分场景经第三方API</span></td>
+        <td>待确认</td>
+        <td>⚠️ 有限<br><span class="dim">个人用户为主</span></td>
+        <td>❌ 闭源</td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>EasyClaw</strong></td>
+        <td>本地优先<br><span class="dim">桌面Agent本地运行</span></td>
+        <td>本地权限模型<br><span class="dim">用户手动授权</span></td>
+        <td>封装OpenClaw + 多模型<br><span class="chip chip-yellow">数据经第三方模型API</span></td>
+        <td>无公开认证</td>
+        <td>⚠️ 有限<br><span class="dim">本地日志为主</span></td>
+        <td>⚠️ 基于OpenClaw<br><span class="dim">上层闭源</span></td>
+        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>MaxClaw</strong></td>
+        <td>MiniMax云端</td>
+        <td>待确认</td>
+        <td>自研大模型<br><span class="dim">数据留在MiniMax内</span></td>
+        <td>待确认</td>
+        <td>待确认</td>
+        <td>❌ 闭源</td>
+        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>KimiClaw</strong></td>
+        <td>月之暗面云端（国内）</td>
+        <td>会员账号级<br><span class="dim">无企业管控</span></td>
+        <td>Kimi自研模型<br><span class="dim">全包式，数据不出Kimi</span></td>
+        <td>待确认</td>
+        <td>⚠️ 有限</td>
+        <td>❌ 闭源</td>
+        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>灵犀Claw</strong></td>
+        <td>金山云（国内）<br><span class="dim">WPS生态内</span></td>
+        <td>WPS企业版权限体系<br><span class="dim">文档级权限控制</span></td>
+        <td>自研+第三方混合<br><span class="dim">办公数据经WPS处理</span></td>
+        <td>依托WPS企业合规<br><span class="dim">等保 / 国产化适配</span></td>
+        <td>✅ WPS企业版审计<br><span class="dim">文档操作可追溯</span></td>
+        <td>❌ 闭源</td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>ArkClaw</strong></td>
+        <td>字节云（国内）<br><span class="dim">飞书生态内</span></td>
+        <td>飞书管理后台统一管控<br><span class="chip chip-green">企业级</span></td>
+        <td>豆包大模型为主<br><span class="dim">数据留在字节生态内</span></td>
+        <td>依托飞书企业合规<br><span class="dim">等保 / SOC2</span></td>
+        <td>✅ 飞书审计日志<br><span class="dim">管理员全链路追溯</span></td>
+        <td>❌ 闭源</td>
+        <td><span class="stars">★★★★</span><span class="stars-dim">★</span></td>
+      </tr>
+      <tr>
+        <td><strong>OpenClaw</strong></td>
+        <td><span class="chip chip-green">完全本地</span><br><span class="dim">数据不离开用户设备</span></td>
+        <td>用户完全自主<br><span class="dim">自行配置权限边界</span></td>
+        <td>用户自选模型<br><span class="chip chip-yellow">取决于用户配置</span></td>
+        <td>— 社区项目<br><span class="dim">无商业认证</span></td>
+        <td>✅ 本地完整日志<br><span class="dim">用户完全可控</span></td>
+        <td><span class="chip chip-green">完全开源</span><br><span class="dim">GitHub 35万+ Star</span></td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
+      </tr>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="cross-security-findings">🔑 安全审查关键发现</h3>
+    <div class="callout callout-green">
+      <strong>✅ 企业级安全第一梯队：WorkBuddy、ArkClaw</strong><br>
+      ① <strong>WorkBuddy</strong>：依托腾讯云完整合规体系（等保三级/ISO27001），AD域控+SSO+白名单+审计日志，B端安全最完善<br>
+      ② <strong>ArkClaw</strong>：飞书管理后台统一管控，全链路审计日志，字节云SOC2认证，企业级安全能力与WorkBuddy并列
+    </div>
+    <div class="callout callout-blue">
+      <strong>🔍 数据主权差异是核心安全分水岭</strong><br>
+      ① <strong>本地优先派</strong>（OpenClaw/EasyClaw）：数据不离开设备，隐私最强，但安全取决于用户自身能力<br>
+      ② <strong>云端生态派</strong>（WorkBuddy/ArkClaw/灵犀Claw）：数据留在各自云生态内，不出境，企业合规体系完善<br>
+      ③ <strong>需关注</strong>：EasyClaw 等封装类产品调用第三方模型API时，用户数据可能经过多方中转
+    </div>
+    <div class="callout callout-yellow">
+      <strong>⚠️ 行业整体安全短板</strong><br>
+      ① 多数产品（MaxClaw/KimiClaw/QClaw）企业合规认证信息<strong>未公开披露</strong>，B端客户评估困难<br>
+      ② 模型调用链路透明度普遍不足 — 用户难以确认数据是否经第三方<br>
+      ③ <strong>唯一完全可审计的是 OpenClaw</strong>（开源代码 + 本地数据 + 用户自选模型），但需用户自行承担安全运维
+    </div>
+    <div class="callout callout-red">
+      <strong>🚨 OfficeClaw 安全定位建议</strong><br>
+      微软生态天然具备<strong>企业级安全基因</strong>：Azure AD/Entra ID + Microsoft 365 合规中心 + 数据驻留策略 + DLP。
+      若 OfficeClaw 深度绑定微软安全体系，将在安全维度上形成<strong>对国内竞品的降维优势</strong>，尤其针对跨国企业和对数据合规要求严格的行业客户。
     </div>
   </div>
 </div>
