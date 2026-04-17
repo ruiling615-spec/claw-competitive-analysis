@@ -1196,12 +1196,12 @@
       <tr>
         <td><strong>EasyClaw</strong></td>
         <td>本地优先<br><span class="dim">桌面Agent本地运行</span></td>
-        <td>本地权限模型<br><span class="dim">用户手动授权</span></td>
+        <td><span class="chip chip-green">客户端三层防护</span><br><span class="dim">环境防护 + 信息保护 + Skill扫描</span></td>
         <td>封装OpenClaw + 多模型<br><span class="chip chip-yellow">数据经第三方模型API</span></td>
         <td>无公开认证</td>
-        <td>⚠️ 有限<br><span class="dim">本地日志为主</span></td>
+        <td>✅ 客户端内置<br><span class="dim">工具调用全过程管控</span></td>
         <td>⚠️ 基于OpenClaw<br><span class="dim">上层闭源</span></td>
-        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
       </tr>
       <tr>
         <td><strong>MaxClaw</strong></td>
@@ -1268,7 +1268,7 @@
       <strong>🔍 数据主权差异是核心安全分水岭</strong><br>
       ① <strong>本地优先派</strong>（OpenClaw/EasyClaw）：数据不离开设备，隐私最强，但安全取决于用户自身能力<br>
       ② <strong>云端生态派</strong>（WorkBuddy/ArkClaw/灵犀Claw）：数据留在各自云生态内，不出境，企业合规体系完善<br>
-      ③ <strong>需关注</strong>：EasyClaw 等封装类产品调用第三方模型API时，用户数据可能经过多方中转
+      ③ <strong>需关注</strong>：封装类产品调用第三方模型API时，用户数据可能经过多方中转（EasyClaw 已内置信息保护做缓解，但数据仍经第三方）
     </div>
     <div class="callout callout-yellow">
       <strong>⚠️ 行业整体安全短板</strong><br>
@@ -1314,10 +1314,10 @@
       </tr>
       <tr>
         <td><strong>EasyClaw</strong></td>
-        <td>桌面安装 + 手动授权</td>
+        <td>桌面安装 + 手动授权<br><span class="chip chip-green">内置信息保护</span></td>
         <td>本地操作 → 第三方模型API<br><span class="chip chip-yellow">多方中转</span></td>
-        <td><span class="chip chip-red">高风险</span> 数据经多方中转，用户难追踪；<br>封装层+模型层<strong>双重数据留存风险</strong></td>
-        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+        <td><span class="chip chip-yellow">中风险</span> 数据经第三方模型API，但客户端内置<strong>用户信息安全保护</strong>：<br>自动检测提示词中的隐私信息、敏感密钥、账号凭证等</td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
       </tr>
       <tr>
         <td><strong>MaxClaw</strong></td>
@@ -1366,8 +1366,8 @@
     <div class="callout callout-green">
       <strong>✅ C端安全最佳实践方阵</strong><br>
       <strong>第一梯队</strong>（生态闭环 + 透明可控）：<strong>WorkBuddy</strong>（腾讯生态闭环）、<strong>ArkClaw</strong>（飞书生态闭环）、<strong>OpenClaw</strong>（完全本地可控）<br>
-      <strong>第二梯队</strong>（生态内但透明度待提升）：灵犀Claw、MaxClaw、KimiClaw<br>
-      <strong>需关注</strong>（权限大 + 数据流向不透明）：<strong>QClaw、EasyClaw</strong>
+      <strong>第二梯队</strong>（有防护但仍经第三方）：<strong>EasyClaw</strong>（内置三层安全防护，但数据仍经第三方模型API）、灵犀Claw、MaxClaw、KimiClaw<br>
+      <strong>需关注</strong>（权限大 + 数据流向不透明）：<strong>QClaw</strong>
     </div>
   </div>
 
@@ -1405,10 +1405,10 @@
       </tr>
       <tr>
         <td><strong>EasyClaw</strong></td>
-        <td>✅ 基于OpenClaw Skill机制<br>⚠️ 本地执行权限大<br><span class="chip chip-yellow">可操作文件系统</span></td>
-        <td>⚠️ 依赖OpenClaw社区<br><span class="dim">无独立审核层</span></td>
-        <td>⚠️ 继承OpenClaw开放性<br><span class="dim">Skill可访问本地资源</span></td>
-        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+        <td>✅ 基于OpenClaw Skill机制<br><span class="chip chip-green">内置环境防护</span><br><span class="dim">工具调用全过程安全管控，拦截高风险行为</span></td>
+        <td>✅ 内置Skill安全扫描<br><span class="dim">安装前多层检测（来源可信度+代码审查+权限评估）</span></td>
+        <td>✅ 基于OpenClaw + 客户端防护<br><span class="dim">Skill安装需通过安全扫描</span></td>
+        <td><span class="stars">★★★★</span><span class="stars-dim">★</span></td>
       </tr>
       <tr>
         <td><strong>MaxClaw</strong></td>
@@ -1456,9 +1456,9 @@
     </div>
     <div class="callout callout-green">
       <strong>✅ Skill 安全最佳实践</strong><br>
-      <strong>第一梯队</strong>（平台审核 + 权限管控）：<strong>WorkBuddy</strong>（SkillHub集中审核 + Credits追踪）、<strong>ArkClaw</strong>（飞书应用商店审核 + 企业管理员管控）<br>
+      <strong>第一梯队</strong>（平台审核 + 权限管控）：<strong>WorkBuddy</strong>（SkillHub集中审核 + Credits追踪）、<strong>ArkClaw</strong>（飞书应用商店审核 + 企业管理员管控）、<strong>EasyClaw</strong>（客户端内置三层安全防护 + 沙箱隔离）<br>
       <strong>第二梯队</strong>（封闭但安全）：QClaw、KimiClaw（不开放第三方Skill = 消除供应链风险，但牺牲扩展性）<br>
-      <strong>需加强</strong>：<strong>OpenClaw/EasyClaw</strong>（开放生态的安全短板 — 需沙箱隔离 + 权限声明 + 社区审核机制）
+      <strong>需加强</strong>：<strong>OpenClaw</strong>（开放生态的安全短板 — 需沙箱隔离 + 权限声明 + 社区审核机制）
     </div>
     <div class="callout callout-yellow">
       <strong>💡 OfficeClaw Skill 安全建议</strong><br>
@@ -1513,14 +1513,15 @@
       </tr>
       <tr>
         <td><strong>EasyClaw</strong></td>
-        <td>⚠️ 继承 OpenClaw Skill Vetter<br><span class="dim">+ 官网宣称"安全沙箱隔离"</span></td>
+        <td><span class="chip chip-green">✅ 客户端内置三层安全</span><br><span class="dim">环境防护 + 信息保护 + Skill扫描</span></td>
         <td>
-          ⚠️ 可用OpenClaw的Skill Vetter<br>
-          ✅ 桌面端沙箱隔离（官方宣传）<br>
-          <span class="dim">无独立安全审查工具</span>
+          ✅ <strong>Skill技能安全扫描</strong>（内置）：安装前多层检测 — 来源可信度 + 代码审查 + 权限评估<br>
+          ✅ <strong>电脑环境安全防护</strong>（内置）：工具调用全过程管控，拦截破坏系统/窃取数据/提权等高风险行为<br>
+          ✅ <strong>用户信息安全保护</strong>（内置）：自动检测提示词中的隐私信息、敏感密钥、账号凭证<br>
+          ✅ 桌面端安全沙箱隔离
         </td>
-        <td><span class="chip chip-yellow">中等</span></td>
-        <td><span class="stars">★★★</span><span class="stars-dim">★★</span><br>沙箱是加分项，但无独立审查工具</td>
+        <td><span class="chip chip-green">深</span><br><span class="dim">三层客户端内置防护 + 沙箱</span></td>
+        <td><span class="stars">★★★★</span><span class="stars-dim">★</span><br><strong>客户端安全标杆</strong> — 唯一内置三层安全防护的桌面端产品</td>
       </tr>
       <tr>
         <td><strong>灵犀Claw</strong></td>
@@ -1574,10 +1575,11 @@
     </div>
     <div class="callout callout-yellow">
       <strong>⚠️ 行业现状：Skill 安全审查是蓝海</strong><br>
-      ① <strong>仅 WorkBuddy 和 OpenClaw 生态有专门的 Skill 安全审查工具</strong>，其他产品要么封闭生态（不需要）、要么缺失（需要但没有）<br>
-      ② WorkBuddy 的 skills-security-check 由<strong>腾讯云鼎实验室</strong>（专业安全团队）出品，是目前<strong>审查维度最全面、最专业</strong>的方案<br>
-      ③ OpenClaw 的 Skill Vetter 是社区方案，有效但更新和维护依赖贡献者<br>
-      ④ <strong>OfficeClaw 机会</strong>：可借鉴 WorkBuddy 云鼎模式，联合微软安全团队（MSRC/Defender）打造企业级 Skill 安全审查，形成差异化壁垒
+      ① <strong>WorkBuddy、EasyClaw 和 OpenClaw 生态有专门的 Skill 安全审查机制</strong>，其他产品要么封闭生态（不需要）、要么缺失（需要但没有）<br>
+      ② WorkBuddy 的 skills-security-check 由<strong>腾讯云鼎实验室</strong>（专业安全团队）出品，审查维度最全面<br>
+      ③ <strong>EasyClaw 是唯一内置三层安全防护的桌面端产品</strong>（环境防护 + 信息保护 + Skill扫描），客户端安全标杆<br>
+      ④ OpenClaw 的 Skill Vetter 是社区方案，有效但更新和维护依赖贡献者<br>
+      ⑤ <strong>OfficeClaw 机会</strong>：可借鉴 WorkBuddy 云鼎模式 + EasyClaw 客户端防护模式，联合微软安全团队（MSRC/Defender）打造企业级 Skill 安全审查
     </div>
   </div>
 </div>
