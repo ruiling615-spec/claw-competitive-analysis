@@ -1260,7 +1260,7 @@
   <div class="card">
     <h3 id="cross-security-c">👤 C端用户安全保障对比</h3>
     <div class="callout callout-blue" style="margin-bottom:16px">
-      <strong>📐 C端安全核心关注点：</strong>个人用户使用Claw产品时，需要授权IM消息、文件、甚至屏幕内容的访问权限。<br>
+      <strong>📐 C端安全核心关注点：</strong>个人用户使用Claw产品时，需要授权文件访问、命令执行等权限。<br>
       数据授权后<strong>去了哪里、被谁看到、是否被用于模型训练</strong> — 这是C端用户最关心的三个安全问题。
     </div>
     <div class="table-wrap">
@@ -1282,9 +1282,9 @@
       <tr>
         <td><strong>QClaw</strong></td>
         <td>微信扫码 + 本地客户端</td>
-        <td>本地截屏/消息 → 云端模型</td>
-        <td><span class="chip chip-red">高风险</span> 本地客户端权限大（读屏幕/键盘），<br>用户对数据采集范围<strong>感知弱</strong></td>
-        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+        <td>本地文件/消息 → 云端模型</td>
+        <td><span class="chip chip-yellow">中风险</span> 本地客户端可操作文件和执行命令，<br>信通院首批通过，腾讯安全沙箱机制</td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
       </tr>
       <tr>
         <td><strong>EasyClaw</strong></td>
@@ -1333,7 +1333,7 @@
 
     <div class="callout callout-red">
       <strong>🚨 C端三大安全隐患</strong><br>
-      ① <strong>屏幕/键盘读取类</strong>（QClaw、EasyClaw）：本地客户端权限极大，可读取屏幕内容和输入信息，一旦被恶意利用影响严重<br>
+      ① <strong>本地文件/命令执行权限</strong>：所有本地部署类产品（OpenClaw/EasyClaw/QClaw）的Agent均可操作本地文件和执行命令，恶意Skill可利用此权限窃取数据或破坏系统<br>
       ② <strong>模型API中转</strong>：用户对话数据是否被模型提供方留存用于训练？<strong>多数产品未做出明确"不训练"承诺</strong><br>
       ③ <strong>授权范围模糊</strong>：部分产品首次授权后，用户难以精确管控后续数据采集范围（如后台持续读取消息）
     </div>
