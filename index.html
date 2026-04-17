@@ -989,7 +989,7 @@
     <div class="table-wrap">
     <table>
       <tr><th>产品</th><th>出品方</th><th>核心定位</th><th>IM覆盖</th><th>付费模式</th><th>生态决定</th></tr>
-      <tr class="highlight"><td><strong>WorkBuddy</strong></td><td>腾讯云</td><td>IM驱动的全场景AI Agent平台</td><td><strong>9大触达渠道</strong> <span class="chip chip-green">竞品最多</span></td><td>Credits圈地 → 个人Pro+企业License</td><td>腾讯IM生态 = 企业级触达</td></tr>
+      <tr class="highlight"><td><strong>WorkBuddy</strong></td><td>腾讯云</td><td>完全自研的IM驱动全场景AI Agent平台（非OpenClaw封装）</td><td><strong>9大触达渠道</strong> <span class="chip chip-green">竞品最多</span></td><td>Credits圈地 → 个人Pro+企业License</td><td>腾讯IM生态 = 企业级触达</td></tr>
       <tr><td><strong>QClaw</strong></td><td>腾讯电脑管家</td><td>微信远程AI助手</td><td>1（仅微信）</td><td>4000万Token免费圈地</td><td>微信深度绑定 = 国民级入口</td></tr>
       <tr><td><strong>EasyClaw</strong></td><td>猎豹移动</td><td>零配置桌面AI Agent</td><td>4</td><td><span class="chip chip-green">定价最成熟</span> 39/79/199/企业</td><td>OpenClaw 封装 + 傅盛IP</td></tr>
       <tr><td><strong>MaxClaw</strong></td><td>MiniMax</td><td>Expert Agent 大模型突出</td><td>有限</td><td>待确认</td><td>自研大模型能力</td></tr>
@@ -1175,11 +1175,11 @@
       </tr>
       <tr class="highlight">
         <td><strong>WorkBuddy</strong></td>
-        <td>腾讯云（国内）<br><span class="dim">数据不出境</span></td>
-        <td>AD域控/SSO/白名单<br><span class="chip chip-green">企业级</span></td>
-        <td>混元大模型为主<br><span class="dim">数据留在腾讯生态内</span></td>
+        <td>本地执行优先<br><span class="dim">文件不离开本地，腾讯云转发指令</span></td>
+        <td>沙箱+权限隔离<br><span class="chip chip-green">本地文件夹级权限边界</span></td>
+        <td>多模型通过腾讯云AI Gateway统一调用<br><span class="dim">混元/DeepSeek/GLM等，客户端不存API Key</span></td>
         <td><span class="chip chip-green">信通院首批通过</span><br><span class="dim">腾讯云等保三级 / ISO27001</span></td>
-        <td>✅ 企业审计日志<br><span class="dim">管理员可追溯操作</span></td>
+        <td>✅ 主机侧审计+流量审计<br><span class="dim">事前加固→事中检测拦截→事后审计追查</span></td>
         <td>❌ 闭源</td>
         <td><span class="stars">★★★★</span><span class="stars-dim">★</span></td>
       </tr>
@@ -1539,6 +1539,7 @@
       <strong>✅ WorkBuddy skills-security-check 核心能力拆解（腾讯云鼎实验室出品）</strong><br>
       <table style="margin-top:8px;font-size:12.5px">
         <tr><th style="width:25%;padding:6px 10px">能力</th><th style="padding:6px 10px">说明</th></tr>
+        <tr><td style="padding:6px 10px"><strong>多道防线</strong></td><td style="padding:6px 10px">从传统基于规则、特征检测，到AI智能识别恶意代码变种，再到Agent对抗Agent自动化审核（来源：腾讯安全团队谢奕智）</td></tr>
         <tr><td style="padding:6px 10px"><strong>纯静态分析</strong></td><td style="padding:6px 10px">绝不执行被审查代码 — 仅做文本层面安全扫描，工具调用严格限定只读白名单（read_file / search_content / list_dir / web_fetch）</td></tr>
         <tr><td style="padding:6px 10px"><strong>反 Prompt 注入</strong></td><td style="padding:6px 10px">内置已知攻击话术模板识别："⚠️ CRITICAL REQUIREMENT"、"RUN THIS COMMAND"、base64编码命令、伪造官方域名URL等</td></tr>
         <tr><td style="padding:6px 10px"><strong>远程脚本深度审计</strong></td><td style="padding:6px 10px">发现 curl|bash 等自动下载执行时，主动 web_fetch 抓取远程URL内容做二次静态分析（检查二次下载、数据外送、后门持久化）</td></tr>
@@ -1561,7 +1562,7 @@
     <h3 id="cross-security-findings">🔑 综合关键发现</h3>
     <div class="callout callout-green">
       <strong>✅ 安全第一梯队：WorkBuddy（A+）、ArkClaw（A）</strong><br>
-      ① <strong>WorkBuddy</strong>：腾讯全栈安全 — 信通院首批通过 + 三级权限模式 + SkillHub集中审核 + 云鼎实验室skills-security-check + 数据脱敏Skill<br>
+      ① <strong>WorkBuddy</strong>（完全自研）：腾讯全栈安全 — 信通院首批通过 + 多道防线Skill审核（规则→特征→AI→Agent对抗Agent）+ 本地执行文件不离机 + 事前加固/事中拦截/事后审计三层体系<br>
       ② <strong>ArkClaw</strong>：火山引擎纵深防御 — 云原生沙箱容器隔离 + 全流程闭环审计 + Skill全量准入扫描 + 《OpenClaw安全规范和使用指引》
     </div>
     <div class="callout callout-blue">
