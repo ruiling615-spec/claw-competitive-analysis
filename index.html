@@ -197,6 +197,7 @@
     <summary><a href="#cross-security" style="display:inline;padding:0;border:0">2.5 安全审查对比</a></summary>
     <a href="#cross-security-table">安全能力全景</a>
     <a href="#cross-security-findings">关键发现</a>
+    <a href="#cross-security-c">C端用户安全</a>
   </details>
   <div class="nav-divider"></div>
   <div class="nav-title">💡 三、Insights 洞察</div>
@@ -1276,6 +1277,94 @@
       <strong>🚨 OfficeClaw 安全定位建议</strong><br>
       微软生态天然具备<strong>企业级安全基因</strong>：Azure AD/Entra ID + Microsoft 365 合规中心 + 数据驻留策略 + DLP。
       若 OfficeClaw 深度绑定微软安全体系，将在安全维度上形成<strong>对国内竞品的降维优势</strong>，尤其针对跨国企业和对数据合规要求严格的行业客户。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="cross-security-c">👤 C端用户安全保障对比</h3>
+    <div class="callout callout-blue" style="margin-bottom:16px">
+      <strong>📐 C端安全核心关注点：</strong>个人用户使用Claw产品时，需要授权IM消息、文件、甚至屏幕内容的访问权限。<br>
+      数据授权后<strong>去了哪里、被谁看到、是否被用于模型训练</strong> — 这是C端用户最关心的三个安全问题。
+    </div>
+    <div class="table-wrap">
+    <table>
+      <tr>
+        <th>产品</th>
+        <th>授权机制</th>
+        <th>数据流向</th>
+        <th>C端风险点</th>
+        <th>C端安全评级</th>
+      </tr>
+      <tr class="highlight">
+        <td><strong>WorkBuddy</strong></td>
+        <td>微信/企微OAuth授权<br><span class="dim">Credits消耗可见</span></td>
+        <td>消息 → 腾讯云混元<br><span class="chip chip-green">生态闭环</span></td>
+        <td>数据在腾讯生态内闭环，风险较低；<br><span class="dim">用户对数据流向有基本感知</span></td>
+        <td><span class="stars">★★★★</span><span class="stars-dim">★</span></td>
+      </tr>
+      <tr>
+        <td><strong>QClaw</strong></td>
+        <td>微信扫码 + 本地客户端</td>
+        <td>本地截屏/消息 → 云端模型</td>
+        <td><span class="chip chip-red">高风险</span> 本地客户端权限大（读屏幕/键盘），<br>用户对数据采集范围<strong>感知弱</strong></td>
+        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>EasyClaw</strong></td>
+        <td>桌面安装 + 手动授权</td>
+        <td>本地操作 → 第三方模型API<br><span class="chip chip-yellow">多方中转</span></td>
+        <td><span class="chip chip-red">高风险</span> 数据经多方中转，用户难追踪；<br>封装层+模型层<strong>双重数据留存风险</strong></td>
+        <td><span class="stars">★★</span><span class="stars-dim">★★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>MaxClaw</strong></td>
+        <td>账号注册</td>
+        <td>对话 → MiniMax云端</td>
+        <td>风险一般；<br><span class="dim">隐私政策透明度低，数据训练承诺不明确</span></td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>KimiClaw</strong></td>
+        <td>Kimi会员账号</td>
+        <td>全托管在Kimi云端</td>
+        <td>数据全在月之暗面，相对封闭；<br><span class="dim">无独立安全承诺页面</span></td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>灵犀Claw</strong></td>
+        <td>WPS账号授权</td>
+        <td>文档 → 金山云<br><span class="chip chip-green">生态闭环</span></td>
+        <td>WPS已有大量用户数据基础，增量风险可控；<br><span class="dim">文档内容是否用于训练未明确</span></td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span></td>
+      </tr>
+      <tr>
+        <td><strong>ArkClaw</strong></td>
+        <td>飞书账号</td>
+        <td>飞书生态内<br><span class="chip chip-green">生态闭环</span></td>
+        <td>与飞书同等安全级别；<br><span class="dim">数据留在字节生态内</span></td>
+        <td><span class="stars">★★★★</span><span class="stars-dim">★</span></td>
+      </tr>
+      <tr>
+        <td><strong>OpenClaw</strong></td>
+        <td>用户完全自配</td>
+        <td><span class="chip chip-green">完全取决于用户配置</span></td>
+        <td>✅ 可做到完全本地零泄露；<br><span class="dim">但配置门槛高，普通C端用户难驾驭</span></td>
+        <td><span class="stars">★★★★</span><span class="stars-dim">★</span></td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="callout callout-red">
+      <strong>🚨 C端三大安全隐患</strong><br>
+      ① <strong>屏幕/键盘读取类</strong>（QClaw、EasyClaw）：本地客户端权限极大，可读取屏幕内容和输入信息，一旦被恶意利用影响严重<br>
+      ② <strong>模型API中转</strong>：用户对话数据是否被模型提供方留存用于训练？<strong>多数产品未做出明确"不训练"承诺</strong><br>
+      ③ <strong>授权范围模糊</strong>：部分产品首次授权后，用户难以精确管控后续数据采集范围（如后台持续读取消息）
+    </div>
+    <div class="callout callout-green">
+      <strong>✅ C端安全最佳实践方阵</strong><br>
+      <strong>第一梯队</strong>（生态闭环 + 透明可控）：<strong>WorkBuddy</strong>（腾讯生态闭环）、<strong>ArkClaw</strong>（飞书生态闭环）、<strong>OpenClaw</strong>（完全本地可控）<br>
+      <strong>第二梯队</strong>（生态内但透明度待提升）：灵犀Claw、MaxClaw、KimiClaw<br>
+      <strong>需关注</strong>（权限大 + 数据流向不透明）：<strong>QClaw、EasyClaw</strong>
     </div>
   </div>
 </div>
