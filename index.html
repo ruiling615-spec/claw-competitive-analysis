@@ -1434,13 +1434,6 @@
       <strong>第二梯队</strong>（封闭但安全）：QClaw、KimiClaw（不开放第三方Skill = 消除供应链风险，但牺牲扩展性）<br>
       <strong>需加强</strong>：<strong>OpenClaw</strong>（开放生态的安全短板 — 需沙箱隔离 + 权限声明 + 社区审核机制）
     </div>
-    <div class="callout callout-yellow">
-      <strong>💡 OfficeClaw Skill 安全建议</strong><br>
-      ① 借鉴微软 <strong>Teams App Store 审核机制</strong> — 上架前安全扫描 + 权限声明 + 合规检查<br>
-      ② 实现 <strong>Skill 沙箱隔离</strong> — 每个Skill运行在独立容器中，限制文件/网络/命令访问范围<br>
-      ③ <strong>权限分级授权</strong> — 用户安装Skill时明确告知"此Skill需要读取你的文件/发送邮件"，逐项确认<br>
-      ④ 企业场景：管理员可设置 <strong>Skill白名单</strong>，仅允许审批通过的Skill在企业内使用
-    </div>
   </div>
 
   <div class="card">
@@ -1554,7 +1547,6 @@
       ② WorkBuddy 的 skills-security-check 由<strong>腾讯云鼎实验室</strong>（专业安全团队）出品，审查维度最全面<br>
       ③ <strong>EasyClaw 是唯一内置三层安全防护的桌面端产品</strong>（环境防护 + 信息保护 + Skill扫描），客户端安全标杆<br>
       ④ OpenClaw 的 Skill Vetter 是社区方案，有效但更新和维护依赖贡献者<br>
-      ⑤ <strong>OfficeClaw 机会</strong>：可借鉴 WorkBuddy 云鼎模式 + EasyClaw 客户端防护模式，联合微软安全团队（MSRC/Defender）打造企业级 Skill 安全审查
     </div>
   </div>
 
@@ -1576,13 +1568,6 @@
       ① <strong>OpenClaw 安全审计通过率仅 58.9%</strong>（上海科技大学ASPIRE实验室测试），六个维度严重不均衡 — 所有基于OpenClaw的产品都继承了底层风险<br>
       ② 多数产品（MaxClaw/KimiClaw/灵犀Claw）Skill安全审核工具<strong>缺失或薄弱</strong><br>
       ③ 提示词注入防护行业整体不足 — 仅WorkBuddy和ArkClaw有专项防护
-    </div>
-    <div class="callout callout-red">
-      <strong>🚨 OfficeClaw 安全定位建议</strong><br>
-      微软生态天然具备<strong>企业级安全基因</strong>：Azure AD/Entra ID + Microsoft 365 合规中心 + Defender安全体系 + DLP数据防泄露。<br>
-      ① 借鉴 WorkBuddy 云鼎模式 + EasyClaw 客户端防护模式，打造Skill安全审查<br>
-      ② 借鉴 ArkClaw 火山安全方案，构建全流程纵深防御<br>
-      ③ 争取成为<strong>首个通过国际安全认证（SOC2/ISO27001）的Claw产品</strong>，形成对国内竞品的降维优势
     </div>
   </div>
 
