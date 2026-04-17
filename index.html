@@ -199,6 +199,7 @@
     <a href="#cross-security-findings">关键发现</a>
     <a href="#cross-security-c">C端用户安全</a>
     <a href="#cross-security-skill">Skill生态安全</a>
+    <a href="#cross-security-skill-audit">Skill安全审查工具</a>
   </details>
   <div class="nav-divider"></div>
   <div class="nav-title">💡 三、Insights 洞察</div>
@@ -1464,6 +1465,118 @@
       ② 实现 <strong>Skill 沙箱隔离</strong> — 每个Skill运行在独立容器中，限制文件/网络/命令访问范围<br>
       ③ <strong>权限分级授权</strong> — 用户安装Skill时明确告知"此Skill需要读取你的文件/发送邮件"，逐项确认<br>
       ④ 企业场景：管理员可设置 <strong>Skill白名单</strong>，仅允许审批通过的Skill在企业内使用
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="cross-security-skill-audit">🔍 Skill 安全审查工具对比 — 谁有"安检门"？</h3>
+    <div class="callout callout-blue" style="margin-bottom:16px">
+      <strong>📐 为什么需要 Skill 安全审查工具？</strong><br>
+      Skill 投毒已被国家互联网应急中心列为 OpenClaw 最核心安全风险。恶意Skill可伪装成热门工具，通过 Prompt 注入、隐蔽命令执行、数据外传等手段攻击用户。<br>
+      <strong>安全审查 Skill = 给 Skill 生态装"安检门"</strong>，在安装/使用前自动扫描风险。
+    </div>
+
+    <div class="table-wrap">
+    <table>
+      <tr>
+        <th>产品</th>
+        <th>安全审查 Skill/工具</th>
+        <th>审查机制</th>
+        <th>审查深度</th>
+        <th>评价</th>
+      </tr>
+      <tr class="highlight">
+        <td><strong>WorkBuddy</strong></td>
+        <td><span class="chip chip-green">✅ skills-security-check</span><br><span class="dim">腾讯云鼎实验室出品</span></td>
+        <td>
+          ✅ 纯静态文本分析（不执行被审查代码）<br>
+          ✅ 多维度扫描：命令执行、网络请求、权限提升、敏感路径、文件操作<br>
+          ✅ 反 Prompt 注入声明（识别已知攻击话术模板）<br>
+          ✅ 远程脚本深度分析（web_fetch 抓取 curl|bash 等目标URL 做静态审计）<br>
+          ✅ P0/P1 风险分级定级
+        </td>
+        <td><span class="chip chip-green">最深</span><br><span class="dim">覆盖 Prompt 注入 + 供应链攻击 + 隐蔽执行 + 数据外传</span></td>
+        <td><span class="stars">★★★★★</span><br><strong>行业标杆</strong> — 专业安全团队出品，审查维度最全面</td>
+      </tr>
+      <tr>
+        <td><strong>OpenClaw</strong></td>
+        <td><span class="chip chip-blue">✅ Skill Vetter</span><br><span class="dim">社区开源工具</span></td>
+        <td>
+          ✅ 安装前扫描恶意代码<br>
+          ✅ 审查权限范围<br>
+          ✅ 风险分类与评级<br>
+          ⚠️ 社区维护，更新依赖贡献者
+        </td>
+        <td><span class="chip chip-blue">较深</span><br><span class="dim">基础安全审计 + 权限检查</span></td>
+        <td><span class="stars">★★★★</span><span class="stars-dim">★</span><br>开源生态的自救方案，有效但依赖社区维护</td>
+      </tr>
+      <tr>
+        <td><strong>EasyClaw</strong></td>
+        <td>⚠️ 继承 OpenClaw Skill Vetter<br><span class="dim">+ 官网宣称"安全沙箱隔离"</span></td>
+        <td>
+          ⚠️ 可用OpenClaw的Skill Vetter<br>
+          ✅ 桌面端沙箱隔离（官方宣传）<br>
+          <span class="dim">无独立安全审查工具</span>
+        </td>
+        <td><span class="chip chip-yellow">中等</span></td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span><br>沙箱是加分项，但无独立审查工具</td>
+      </tr>
+      <tr>
+        <td><strong>灵犀Claw</strong></td>
+        <td>— 无专用审查工具<br><span class="dim">Skill生态刚起步</span></td>
+        <td>⚠️ 依赖WPS平台审核<br><span class="dim">无用户侧自助审查</span></td>
+        <td><span class="chip chip-gray">弱</span></td>
+        <td><span class="stars">★★</span><span class="stars-dim">★★★</span><br>生态早期，尚未建立审查机制</td>
+      </tr>
+      <tr>
+        <td><strong>ArkClaw</strong></td>
+        <td>— 无专用审查工具<br><span class="dim">依赖飞书应用商店审核</span></td>
+        <td>✅ 飞书应用商店上架审核<br>✅ 企业管理员可限制应用范围<br><span class="dim">平台级审核，非用户侧工具</span></td>
+        <td><span class="chip chip-blue">平台级</span></td>
+        <td><span class="stars">★★★</span><span class="stars-dim">★★</span><br>平台审核替代用户审查，但用户无自主审计能力</td>
+      </tr>
+      <tr>
+        <td><strong>QClaw</strong></td>
+        <td>— 不适用<br><span class="dim">不开放第三方Skill</span></td>
+        <td>封闭生态 = 无需审查</td>
+        <td>—</td>
+        <td><span class="dim">封闭生态消除了供应链风险</span></td>
+      </tr>
+      <tr>
+        <td><strong>KimiClaw</strong></td>
+        <td>— 不适用<br><span class="dim">不开放第三方Skill</span></td>
+        <td>封闭生态 = 无需审查</td>
+        <td>—</td>
+        <td><span class="dim">封闭生态消除了供应链风险</span></td>
+      </tr>
+      <tr>
+        <td><strong>MaxClaw</strong></td>
+        <td>待确认</td>
+        <td>待确认</td>
+        <td>—</td>
+        <td><span class="dim">信息不足</span></td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="callout callout-green">
+      <strong>✅ WorkBuddy skills-security-check 核心能力拆解（腾讯云鼎实验室出品）</strong><br>
+      <table style="margin-top:8px;font-size:12.5px">
+        <tr><th style="width:25%;padding:6px 10px">能力</th><th style="padding:6px 10px">说明</th></tr>
+        <tr><td style="padding:6px 10px"><strong>纯静态分析</strong></td><td style="padding:6px 10px">绝不执行被审查代码 — 仅做文本层面安全扫描，工具调用严格限定只读白名单（read_file / search_content / list_dir / web_fetch）</td></tr>
+        <tr><td style="padding:6px 10px"><strong>反 Prompt 注入</strong></td><td style="padding:6px 10px">内置已知攻击话术模板识别："⚠️ CRITICAL REQUIREMENT"、"RUN THIS COMMAND"、base64编码命令、伪造官方域名URL等</td></tr>
+        <tr><td style="padding:6px 10px"><strong>远程脚本深度审计</strong></td><td style="padding:6px 10px">发现 curl|bash 等自动下载执行时，主动 web_fetch 抓取远程URL内容做二次静态分析（检查二次下载、数据外送、后门持久化）</td></tr>
+        <tr><td style="padding:6px 10px"><strong>多维度扫描</strong></td><td style="padding:6px 10px">命令执行、隐蔽执行（>/dev/null）、网络请求、权限提升（sudo）、敏感路径（.ssh/.aws/.env）、文件操作（rm -rf）</td></tr>
+        <tr><td style="padding:6px 10px"><strong>风险定级</strong></td><td style="padding:6px 10px">P0 阻断（确认恶意/无法验证）→ P1 需关注（可疑待人工复核），区分"Skill自动执行"vs"仅教学示例"</td></tr>
+        <tr><td style="padding:6px 10px"><strong>自检机制</strong></td><td style="padding:6px 10px">审计过程中若发现自身调用白名单之外工具 → 立即停止，判定正在被Prompt注入攻击</td></tr>
+      </table>
+    </div>
+    <div class="callout callout-yellow">
+      <strong>⚠️ 行业现状：Skill 安全审查是蓝海</strong><br>
+      ① <strong>仅 WorkBuddy 和 OpenClaw 生态有专门的 Skill 安全审查工具</strong>，其他产品要么封闭生态（不需要）、要么缺失（需要但没有）<br>
+      ② WorkBuddy 的 skills-security-check 由<strong>腾讯云鼎实验室</strong>（专业安全团队）出品，是目前<strong>审查维度最全面、最专业</strong>的方案<br>
+      ③ OpenClaw 的 Skill Vetter 是社区方案，有效但更新和维护依赖贡献者<br>
+      ④ <strong>OfficeClaw 机会</strong>：可借鉴 WorkBuddy 云鼎模式，联合微软安全团队（MSRC/Defender）打造企业级 Skill 安全审查，形成差异化壁垒
     </div>
   </div>
 </div>
